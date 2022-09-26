@@ -1,5 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { loginUserThunk, registerUserThunk } from "./userThunk";
+import {
+  loginUserThunk,
+  registerUserThunk,
+  forgotPasswordThunk,
+} from "./userThunk";
 
 const initialState = {
   user: {
@@ -24,6 +28,16 @@ export const loginUser = createAsyncThunk(
   "user/loginUser",
   async (user, thunkAPI) => {
     return loginUserThunk("/authentication/login", user, thunkAPI);
+  }
+);
+export const forgotPassword = createAsyncThunk(
+  "user/forgotPassword",
+  async (email, thunkAPI) => {
+    return forgotPasswordThunk(
+      "/authentication/forgot-password",
+      email,
+      thunkAPI
+    );
   }
 );
 const userSlice = createSlice({
@@ -61,6 +75,17 @@ const userSlice = createSlice({
     },
     [loginUser.rejected]: (state, { payload }) => {
       state.isLoading = false;
+    },
+    [forgotPassword.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [forgotPassword.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      console.log("check pay", payload);
+    },
+    [forgotPassword.rejected]: (state, payload) => {
+      state.isLoading = false;
+      console.log("check pay", payload);
     },
   },
 });

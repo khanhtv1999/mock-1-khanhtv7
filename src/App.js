@@ -2,13 +2,15 @@ import "./App.css";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
   return (
     <div>
       {/* <LandingPage /> */}
-      <RegisterPage />
+      {/* <RegisterPage /> */}
       {/* <LoginPage /> */}
+      <ForgotPassword />
     </div>
   );
 }

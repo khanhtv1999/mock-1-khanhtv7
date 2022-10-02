@@ -74,14 +74,13 @@ const userSlice = createSlice({
     },
     [loginUser.fulfilled]: (state, { payload }) => {
       const { user, tokens } = payload.data;
-      console.log("check user", user);
       state.user.id = user.id;
-      state.user.name = user.name;
-      state.user.email = user.email;
-      state.user.roles = user.roles;
-      state.user.avatar_link = user.avatar_link;
-      state.user.access_token = tokens.access_token.access_token;
-      state.user.refresh_token = tokens.refresh_token.refresh_token;
+      state.user.name = user?.name;
+      state.user.email = user?.email;
+      state.user.roles = user?.roles;
+      state.user.avatar_link = user?.avatar_link;
+      state.user.access_token = tokens?.access_token?.access_token;
+      state.user.refresh_token = tokens?.refresh_token?.refresh_token;
       state.isAuthenticated = true;
       state.isLoading = false;
       state.isSidebarOpen = false;

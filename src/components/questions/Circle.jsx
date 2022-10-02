@@ -17,7 +17,7 @@ const Circle = () => {
 
   return (
     <Wrapper>
-      {quiz.map((item, index) => {
+      {quiz?.map((item, index) => {
         return (
           <div
             key={item.id}

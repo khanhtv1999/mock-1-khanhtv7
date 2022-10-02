@@ -24,10 +24,13 @@ const Sidebar = () => {
 };
 const Wrapper = styled.aside`
   display: none;
+  background: #102a43;
+
   @media (min-width: 992px) {
-    background-color: red;
     display: block;
     box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 0.1);
+    color: #fff;
+
     .sidebar-container {
       background: #fff;
       min-height: 100vh;
@@ -44,10 +47,16 @@ const Wrapper = styled.aside`
       margin-left: 0;
     }
     header {
-      height: 6rem;
+      height: 6.4rem;
       display: flex;
       align-items: center;
-      padding-left: 2.5rem;
+      justify-content: center;
+      padding-left: 1rem;
+      background-color: #1976d2 !important;
+      padding-bottom: 1px;
+      box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%),
+        0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+      color: #fff;
     }
     .nav-links {
       padding-top: 2rem;
@@ -58,21 +67,22 @@ const Wrapper = styled.aside`
       display: flex;
       align-items: center;
       color: #627d98;
-      padding: 1rem 0;
+      padding: 2rem 0;
       padding-left: 2.5rem;
       text-transform: capitalize;
       transition: 0.3s ease-in-out all;
     }
     .nav-link:hover {
-      background: #627d98;
+      background: #f0f4f8;
       padding-left: 3rem;
       color: #102a43;
     }
     .nav-link:hover .icon {
       color: #3b82f6;
+      font-size: 2.25rem;
     }
     .icon {
-      font-size: 1.5rem;
+      font-size: 1.75rem;
       margin-right: 1rem;
       display: grid;
       place-items: center;

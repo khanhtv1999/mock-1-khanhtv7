@@ -7,6 +7,7 @@ import ForgotPassword from "./pages/generalPage/ForgotPassword";
 import ChooseNumQuiz from "./pages/generalPage/ChooseNumQuiz";
 import DoQuizPage from "./pages/generalPage/DoQuizPage";
 import SharedLayout from "./pages/adminPage/shareLayout";
+import TableQuestions from "./components/questions/TableQuestions";
 
 function App() {
   return (

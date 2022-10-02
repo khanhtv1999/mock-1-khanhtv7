@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../../components/layout/SideBar";
 import Header from "../../components/layout/Header";
+import TableQuestion from "../../components/questions/TableQuestions";
 
 const SharedLayout = () => {
   return (
@@ -12,6 +13,8 @@ const SharedLayout = () => {
           <Header />
           <div className="dashboard-page">
             <Outlet />
+            <TableQuestion />
+            <h1>aha</h1>h
           </div>
         </div>
       </main>
@@ -19,9 +22,17 @@ const SharedLayout = () => {
   );
 };
 const Wrapper = styled.section`
+  top: 0;
+  bottom: 0;
+  position: fixed;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
   .dashboard {
+    font-size: 1.5rem;
     display: grid;
     grid-template-columns: 1fr;
+    background-color: #f0f4f8;
   }
   .dashboard-page {
     width: 90vw;

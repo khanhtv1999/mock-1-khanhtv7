@@ -8,7 +8,7 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
+import DensityMediumIcon from "@mui/icons-material/DensityMedium";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useSelector, useDispatch } from "react-redux";
@@ -35,6 +35,7 @@ const ResponsiveAppBar = () => {
   };
 
   const handleCloseUserMenu = (setting) => {
+    setAnchorElUser(null);
     if (setting === "Logout") {
       dispatch(logoutUser(user.refresh_token));
       console.log("refresh_token", user.refresh_token);
@@ -42,9 +43,16 @@ const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar className="header" position="static">
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+          disableGutters
+        >
+          <DensityMediumIcon />
           <Typography
             variant="h6"
             noWrap
@@ -52,7 +60,7 @@ const ResponsiveAppBar = () => {
             href="/"
             sx={{
               mr: 6,
-              display: { xs: "none", md: "flex" },
+              display: { xs: "none", md: "flex", alignContent: "flex-end" },
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
@@ -99,7 +107,6 @@ const ResponsiveAppBar = () => {
               ))}
             </Menu>
           </Box>
-
           <Typography
             variant="h5"
             noWrap
@@ -118,7 +125,8 @@ const ResponsiveAppBar = () => {
           >
             QUIZAPP
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+
+          {/* <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 key={page}
@@ -128,7 +136,7 @@ const ResponsiveAppBar = () => {
                 {page}
               </Button>
             ))}
-          </Box>
+          </Box> */}
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">

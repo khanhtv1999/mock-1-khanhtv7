@@ -20,8 +20,8 @@ const FormQuiz = () => {
     textAlign: "center",
     color: theme.palette.text.secondary,
   }));
-  const srcImg = quiz[index].thumbnail_link
-    ? quiz[index].thumbnail_link
+  const srcImg = quiz[index]?.thumbnail_link
+    ? quiz[index]?.thumbnail_link
     : defaultImage;
 
   const handleClick = (id) => {

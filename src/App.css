@@ -178,3 +178,7 @@ video {
   border-bottom: 1px solid #1976d2;
   cursor: pointer;
 }
+a {
+  text-decoration: none;
+  letter-spacing: 1px;
+}

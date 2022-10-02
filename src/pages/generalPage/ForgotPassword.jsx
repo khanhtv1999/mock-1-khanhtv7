@@ -1,13 +1,14 @@
 import Button from "@mui/material/Button";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { forgotPassword } from "../features/user/userSlice";
-import Header from "../components/Header";
+import { forgotPassword } from "../../features/user/userSlice";
+import Header from "../../components/layout/Header";
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const dispatch = useDispatch();
   const handleClick = () => {
     console.log(email);
+    setEmail("");
     dispatch(forgotPassword({ email }));
   };
   return (

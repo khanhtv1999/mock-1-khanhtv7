@@ -3,6 +3,7 @@ import {
   loginUserThunk,
   registerUserThunk,
   forgotPasswordThunk,
+  logoutUserThunk,
 } from "./userThunk";
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
   isAuthenticated: false,
   isLoading: false,
 };
+
 export const registerUser = createAsyncThunk(
   "user/registerUser",
   async (user, thunkAPI) => {
@@ -28,6 +30,12 @@ export const loginUser = createAsyncThunk(
   "user/loginUser",
   async (user, thunkAPI) => {
     return loginUserThunk("/authentication/login", user, thunkAPI);
+  }
+);
+export const logoutUser = createAsyncThunk(
+  "user/logoutUser",
+  async (refresh_token, thunkAPI) => {
+    return logoutUserThunk("/authentication/logout", refresh_token, thunkAPI);
   }
 );
 export const forgotPassword = createAsyncThunk(
@@ -52,7 +60,6 @@ const userSlice = createSlice({
       const { user } = payload.data;
       state.isLoading = false;
       state.user = user;
-      console.log("check user register", payload.data);
     },
     [registerUser.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -61,15 +68,15 @@ const userSlice = createSlice({
       state.isLoading = true;
     },
     [loginUser.fulfilled]: (state, { payload }) => {
-      const { user } = payload.data;
+      const { user, tokens } = payload.data;
       console.log("check user", user);
       state.user.id = user.id;
       state.user.name = user.name;
       state.user.email = user.email;
       state.user.roles = user.roles;
       state.user.avatar_link = user.avatar_link;
-      state.user.access_token = user.access_token;
-      state.user.refresh_token = user.refresh_token;
+      state.user.access_token = tokens.access_token.access_token;
+      state.user.refresh_token = tokens.refresh_token.refresh_token;
       state.isAuthenticated = true;
       state.isLoading = false;
     },
@@ -81,11 +88,26 @@ const userSlice = createSlice({
     },
     [forgotPassword.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      console.log("check pay", payload);
     },
     [forgotPassword.rejected]: (state, payload) => {
       state.isLoading = false;
-      console.log("check pay", payload);
+    },
+    [logoutUser.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [logoutUser.fulfilled]: (state) => {
+      state.isLoading = false;
+      state.user.id = "";
+      state.user.name = "";
+      state.user.email = "";
+      state.user.roles = "";
+      state.user.avatar_link = "";
+      state.user.access_token = "";
+      state.user.refresh_token = "";
+      state.isAuthenticated = false;
+    },
+    [logoutUser.rejected]: (state) => {
+      state.isLoading = false;
     },
   },
 });

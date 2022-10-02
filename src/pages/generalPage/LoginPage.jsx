@@ -1,11 +1,8 @@
 import * as React from "react";
-import axios from "axios";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -13,26 +10,30 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import imageLogin from "../assets/undraw_education_f8ru.png";
+import imageLogin from "../../assets/undraw_education_f8ru.png";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../features/user/userSlice";
+import { useNavigate } from "react-router";
+import { useState } from "react";
+import { loginUser } from "../../features/user/userSlice";
 
 const theme = createTheme();
 
 export default function SignInSide() {
   const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector((store) => store.user);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoading(true);
     const data = new FormData(event.currentTarget);
     dispatch(
       loginUser({ email: data.get("email"), password: data.get("password") })
     );
-    // console.log({
-    //   email: data.get("email"),
-    //   password: data.get("password"),
-    // });
   };
-
+  if (isAuthenticated) {
+    navigate("/choose-number");
+  }
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -72,8 +73,8 @@ export default function SignInSide() {
             <Box
               component="form"
               noValidate
-              onSubmit={handleSubmit}
               sx={{ mt: 1 }}
+              onSubmit={handleSubmit}
             >
               <TextField
                 margin="normal"
@@ -96,17 +97,18 @@ export default function SignInSide() {
                 autoComplete="current-password"
               />
 
-              <Button
+              <LoadingButton
+                loading={loading}
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
                 Sign In
-              </Button>
+              </LoadingButton>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link href="forgot-password" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>

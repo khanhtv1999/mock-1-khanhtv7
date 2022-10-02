@@ -1,19 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Button } from "@mui/material";
-import Header from "../components/Header";
-import background from "../assets/image-chooseNumber.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import Header from "../../components/layout/Header";
+import background from "../../assets/image-chooseNumber.jpg";
+import { getQuestionPlay } from "../../features/quiz/quizSlice";
 
 const ChooseNumQuiz = () => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((store) => store.user);
+  const [number, setNumber] = useState(1);
+
+  const handleClick = () => {
+    dispatch(getQuestionPlay({ total: number, token: user.access_token }));
+  };
   return (
     <>
       <Header />
       <Wrapper className="container-choose">
         <div>
           <h1>Enter the number of questions you want to do</h1>
-          <input type="number" min={1} />
+          <input
+            value={number}
+            onChange={(e) => setNumber(e.target.value)}
+            type="number"
+            min={1}
+          />
 
-          <Button variant="contained" size="medium">
+          <Button onClick={handleClick} variant="contained" size="medium">
             Submit
           </Button>
         </div>

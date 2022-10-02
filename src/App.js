@@ -1,11 +1,12 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LandingPage from "./pages/LandingPage";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import ForgotPassword from "./pages/ForgotPassword";
-import ChooseNumQuiz from "./pages/ChooseNumQuiz";
-import DoQuizPage from "./pages/DoQuizPage";
+import LandingPage from "./pages/generalPage/LandingPage";
+import LoginPage from "./pages/generalPage/LoginPage";
+import RegisterPage from "./pages/generalPage/RegisterPage";
+import ForgotPassword from "./pages/generalPage/ForgotPassword";
+import ChooseNumQuiz from "./pages/generalPage/ChooseNumQuiz";
+import DoQuizPage from "./pages/generalPage/DoQuizPage";
+import Loading from "./components/Loading";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="choose-number" element={<ChooseNumQuiz />} />
         <Route path="do-quiz" element={<DoQuizPage />} />
+        <Route path="loading" element={<Loading />} />
       </Routes>
     </BrowserRouter>
   );

@@ -4,9 +4,11 @@ import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
 import userSlice from "./features/user/userSlice";
+import quizSlice from "./features/quiz/quizSlice";
 
 const reducers = combineReducers({
   user: userSlice,
+  quiz: quizSlice,
 });
 const persistConfig = {
   key: "root",

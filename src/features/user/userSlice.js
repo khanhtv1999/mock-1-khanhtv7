@@ -18,6 +18,7 @@ const initialState = {
   },
   isAuthenticated: false,
   isLoading: false,
+  isSidebarOpen: false,
 };
 
 export const registerUser = createAsyncThunk(
@@ -51,7 +52,11 @@ export const forgotPassword = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    toggleSidebar: (state) => {
+      state.isSidebarOpen = !state.isSidebarOpen;
+    },
+  },
   extraReducers: {
     [registerUser.pending]: (state) => {
       state.isLoading = true;
@@ -79,6 +84,7 @@ const userSlice = createSlice({
       state.user.refresh_token = tokens.refresh_token.refresh_token;
       state.isAuthenticated = true;
       state.isLoading = false;
+      state.isSidebarOpen = false;
     },
     [loginUser.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -111,4 +117,5 @@ const userSlice = createSlice({
     },
   },
 });
+export const { toggleSidebar } = userSlice.actions;
 export default userSlice.reducer;

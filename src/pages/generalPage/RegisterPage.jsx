@@ -21,11 +21,6 @@ export default function Register() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // console.log({
-    //   email: data.get("email"),
-    //   name: data.get("name"),
-    //   password: data.get("password"),
-    // });
     dispatch(
       registerUser({
         email: data.get("email"),

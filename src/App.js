@@ -6,7 +6,7 @@ import RegisterPage from "./pages/generalPage/RegisterPage";
 import ForgotPassword from "./pages/generalPage/ForgotPassword";
 import ChooseNumQuiz from "./pages/generalPage/ChooseNumQuiz";
 import DoQuizPage from "./pages/generalPage/DoQuizPage";
-import Loading from "./components/Loading";
+import SharedLayout from "./pages/adminPage/shareLayout";
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="choose-number" element={<ChooseNumQuiz />} />
         <Route path="do-quiz" element={<DoQuizPage />} />
-        <Route path="loading" element={<Loading />} />
+        <Route path="sidebar" element={<SharedLayout />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+import NavLinks from "./NavLinks";
+
 const Sidebar = () => {
   const { isSidebarOpen } = useSelector((store) => store.user);
 
@@ -12,7 +15,7 @@ const Sidebar = () => {
         }
       >
         <div className="content">
-          <header></header>
+          <header>HI ADMIN</header>
           <NavLinks />
         </div>
       </div>
@@ -22,15 +25,16 @@ const Sidebar = () => {
 const Wrapper = styled.aside`
   display: none;
   @media (min-width: 992px) {
+    background-color: red;
     display: block;
     box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 0.1);
     .sidebar-container {
-      background: var(--white);
+      background: #fff;
       min-height: 100vh;
       height: 100%;
       width: 250px;
       margin-left: -250px;
-      transition: var(--transition);
+      transition: 0.3s ease-in-out all;
     }
     .content {
       position: sticky;
@@ -53,32 +57,32 @@ const Wrapper = styled.aside`
     .nav-link {
       display: flex;
       align-items: center;
-      color: var(--grey-500);
+      color: #627d98;
       padding: 1rem 0;
       padding-left: 2.5rem;
       text-transform: capitalize;
-      transition: var(--transition);
+      transition: 0.3s ease-in-out all;
     }
     .nav-link:hover {
-      background: var(--grey-50);
+      background: #627d98;
       padding-left: 3rem;
-      color: var(--grey-900);
+      color: #102a43;
     }
     .nav-link:hover .icon {
-      color: var(--primary-500);
+      color: #3b82f6;
     }
     .icon {
       font-size: 1.5rem;
       margin-right: 1rem;
       display: grid;
       place-items: center;
-      transition: var(--transition);
+      transition: 0.3s ease-in-out all;
     }
     .active {
-      color: var(--grey-900);
+      color: #102a43;
     }
     .active .icon {
-      color: var(--primary-500);
+      color: #3b82f6;
     }
   }
 `;

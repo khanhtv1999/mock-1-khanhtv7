@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "../../components/layout/SideBar";
 import Header from "../../components/layout/Header";
 import TableQuestion from "../../components/questions/TableQuestions";
+import SearchContainer from "../../components/layout/SearchContainer";
 
 const SharedLayout = () => {
   return (
@@ -13,8 +14,8 @@ const SharedLayout = () => {
           <Header />
           <div className="dashboard-page">
             <Outlet />
+            <SearchContainer />
             <TableQuestion />
-            <h1>aha</h1>h
           </div>
         </div>
       </main>

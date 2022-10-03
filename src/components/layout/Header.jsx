@@ -18,6 +18,7 @@ const pages = ["Admin", "User"];
 const settings = ["Profile", "Logout"];
 
 const ResponsiveAppBar = () => {
+  const check = true;
   const { user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -43,16 +44,17 @@ const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar className="header" position="static">
+    <AppBar sx={{ position: "sticky", top: "0" }}>
       <Container maxWidth="xl">
         <Toolbar
           sx={{
             display: "flex",
+            alignIitems: "center",
             justifyContent: "space-between",
           }}
           disableGutters
         >
-          <DensityMediumIcon />
+          {check ? <DensityMediumIcon style={{ fontSize: "2.5rem" }} /> : <></>}
           <Typography
             variant="h6"
             noWrap
@@ -66,6 +68,7 @@ const ResponsiveAppBar = () => {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
+              fontSize: "2.75rem",
             }}
           >
             QUIZAPP
@@ -123,7 +126,7 @@ const ResponsiveAppBar = () => {
               textDecoration: "none",
             }}
           >
-            QUIZAPP
+            QUIZAP
           </Typography>
 
           {/* <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>

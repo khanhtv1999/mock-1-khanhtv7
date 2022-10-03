@@ -8,7 +8,7 @@ import ChooseNumQuiz from "./pages/generalPage/ChooseNumQuiz";
 import DoQuizPage from "./pages/generalPage/DoQuizPage";
 import SharedLayout from "./pages/adminPage/shareLayout";
 import TableQuestions from "./components/questions/TableQuestions";
-
+import SearchContainer from "./components/layout/SearchContainer";
 function App() {
   return (
     <BrowserRouter>

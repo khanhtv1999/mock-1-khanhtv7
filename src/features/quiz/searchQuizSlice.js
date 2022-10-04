@@ -3,8 +3,8 @@ import { getAllQuizThunk } from "./searchQuizThunk";
 import customFetch from "../../utils/axiosCustomize";
 const initialFiltersState = {
   search: "",
-  searchType: "id",
-  sort: "DESC",
+  searchType: "all",
+  sort: "ACS",
   searchTypeOptions: ["id", "thumbnail", "createdAt", "updatedAt"],
   sortOptions: ["ASC", "DESC"],
 };
@@ -23,6 +23,9 @@ export const getAllQuiz = createAsyncThunk(
     console.log("check payload", payload);
     const { token, sort, searchType, currentPage, search } = payload;
     let url = `/questions?oder=${sort}&sortField=${searchType}&page=${currentPage}`;
+    if (searchType === "all") {
+      url = "/questions";
+    }
     if (search) {
       url = url + `&keyWord=${search}`;
     }

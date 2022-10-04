@@ -6,14 +6,15 @@ import { getAllQuiz } from "../../features/quiz/searchQuizSlice";
 import { useEffect } from "react";
 import defaultImg from "../../assets/defaultImage.png";
 import { TiPen } from "react-icons/ti";
+import Pagination from "../layout/Pagination";
 
 const TableQuestion = () => {
   var moment = require("moment");
   const { user } = useSelector((store) => store.user);
-  const { sort, searchType, currentPage, title } = useSelector(
+  const { sort, searchType, currentPage, search } = useSelector(
     (store) => store.searchQuiz
   );
-  console.log(sort, searchType, currentPage, title);
+  console.log(sort, searchType, currentPage, search);
   const dispatch = useDispatch();
   useEffect(() => {
     console.log("đổi");
@@ -23,11 +24,11 @@ const TableQuestion = () => {
         sort: sort,
         searchType: searchType,
         currentPage: currentPage,
-        title: title,
+        search: search,
       })
     );
-  }, [title, sort, searchType]);
-  const { allQuiz } = useSelector((store) => store.quiz);
+  }, [search, sort, searchType]);
+  const { quizs } = useSelector((store) => store.searchQuiz);
 
   return (
     <Wrapper>
@@ -42,7 +43,7 @@ const TableQuestion = () => {
         </thead>
 
         <tbody>
-          {allQuiz.map((item) => {
+          {quizs.map((item) => {
             return (
               <tr>
                 <th>{item.title}</th>
@@ -116,6 +117,7 @@ const Wrapper = styled.div`
   justify-content: center;
   table {
     width: 100%;
+    max-width: 100%;
     margin-top: 100px;
     font-size: 18px;
     /* border: 1px solid #343a40; */

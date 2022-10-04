@@ -28,7 +28,6 @@ const Wrapper = styled.section`
   position: fixed;
   overflow-y: scroll;
   overflow-x: hidden;
-
   .dashboard {
     font-size: 1.5rem;
     display: grid;

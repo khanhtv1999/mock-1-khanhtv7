@@ -244,3 +244,14 @@ a {
   font-family: inherit;
   color: #829ab1;
 }
+.btn-block {
+  width: 100%;
+}
+.btn-danger {
+  background: #f8d7da;
+  color: #842029;
+}
+.btn-danger:hover {
+  background: #842029;
+  color: #fff;
+}

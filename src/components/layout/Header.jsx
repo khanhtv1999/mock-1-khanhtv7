@@ -14,12 +14,14 @@ import MenuItem from "@mui/material/MenuItem";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../features/user/userSlice";
 
+import { toggleSidebar } from "../../features/user/userSlice";
+
 const pages = ["Admin", "User"];
 const settings = ["Profile", "Logout"];
 
 const ResponsiveAppBar = () => {
-  const check = true;
   const { user } = useSelector((store) => store.user);
+
   const dispatch = useDispatch();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -42,7 +44,9 @@ const ResponsiveAppBar = () => {
       console.log("refresh_token", user.refresh_token);
     }
   };
-
+  const toggle = () => {
+    dispatch(toggleSidebar());
+  };
   return (
     <AppBar sx={{ position: "sticky", top: "0" }}>
       <Container maxWidth="xl">
@@ -54,7 +58,10 @@ const ResponsiveAppBar = () => {
           }}
           disableGutters
         >
-          {check ? <DensityMediumIcon style={{ fontSize: "2.5rem" }} /> : <></>}
+          <DensityMediumIcon
+            style={{ fontSize: "2.5rem", cursor: "pointer" }}
+            onClick={toggle}
+          />
           <Typography
             variant="h6"
             noWrap

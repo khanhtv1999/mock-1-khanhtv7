@@ -4,50 +4,53 @@ import { useSelector, useDispatch } from "react-redux";
 import { changePage } from "../../features/quiz/searchQuizSlice";
 const Pagination = () => {
   const { totalPages, currentPage } = useSelector((store) => store.searchQuiz);
+
   const dispatch = useDispatch();
-};
-const pages = Array.from({ length: totalPages }, (_, index) => {
-  return index + 1;
-});
-const nextPage = () => {
-  let newPage = currentPage + 1;
-  if (newPage > totalPages) {
-    newPage = 1;
-  }
-  dispatch(changePage(newPage));
-};
-const prevPage = () => {
-  let newPage = currentPage - 1;
-  if (newPage < 1) {
-    newPage = totalPages;
-  }
-  dispatch(changePage(newPage));
-  return (
-    <Wrapper>
-      <button type="button" className="prev-btn" onClick={prevPage}>
-        <HiChevronDoubleLeft />
-        prev
-      </button>
-      <div className="btn-container">
-        {pages.map((pageNumber) => {
-          return (
-            <button
-              type="button"
-              key={pageNumber}
-              className={pageNumber === page ? "pageBtn active" : "pageBtn"}
-              onClick={() => dispatch(changePage(pageNumber))}
-            >
-              {pageNumber}
-            </button>
-          );
-        })}
-      </div>
-      <button type="button" className="next-btn" onClick={nextPage}>
-        next
-        <HiChevronDoubleRight />
-      </button>
-    </Wrapper>
-  );
+  const pages = Array.from({ length: totalPages }, (_, index) => {
+    return index + 1;
+  });
+  const nextPage = () => {
+    let newPage = currentPage + 1;
+    if (newPage > totalPages) {
+      newPage = 1;
+    }
+    dispatch(changePage(newPage));
+  };
+  const prevPage = () => {
+    let newPage = currentPage - 1;
+    if (newPage < 1) {
+      newPage = totalPages;
+    }
+    dispatch(changePage(newPage));
+    return (
+      <Wrapper>
+        <button type="button" className="prev-btn" onClick={prevPage}>
+          <HiChevronDoubleLeft />
+          prev
+        </button>
+        <div className="btn-container">
+          {pages.map((pageNumber) => {
+            return (
+              <button
+                type="button"
+                key={pageNumber}
+                className={
+                  pageNumber === currentPage ? "pageBtn active" : "pageBtn"
+                }
+                onClick={() => dispatch(changePage(pageNumber))}
+              >
+                {pageNumber}
+              </button>
+            );
+          })}
+        </div>
+        <button type="button" className="next-btn" onClick={nextPage}>
+          next
+          <HiChevronDoubleRight />
+        </button>
+      </Wrapper>
+    );
+  };
 };
 
 const Wrapper = styled.section`

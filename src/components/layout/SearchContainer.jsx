@@ -37,7 +37,7 @@ const SearchContainer = () => {
             name="searchType"
             value={searchType}
             handleChange={handleSearch}
-            list={[...searchTypeOptions]}
+            list={["all", ...searchTypeOptions]}
           />
           <InputSelect
             id="sort"
@@ -53,6 +53,13 @@ const SearchContainer = () => {
             value={search}
             handleChange={handleSearch}
           />
+          <button
+            className="btn btn-block btn-danger"
+            disabled={isLoading}
+            onClick={handleSubmit}
+          >
+            clear filters
+          </button>
         </div>
       </form>
     </Wrapper>

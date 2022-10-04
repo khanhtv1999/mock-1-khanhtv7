@@ -2,13 +2,13 @@ import styled from "styled-components";
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi";
 import { useSelector, useDispatch } from "react-redux";
 import { changePage } from "../../features/quiz/searchQuizSlice";
-const Pagination = () => {
+const ButtonPage = () => {
   const { totalPages, currentPage } = useSelector((store) => store.searchQuiz);
-
   const dispatch = useDispatch();
-  const pages = Array.from({ length: totalPages }, (_, index) => {
+  const pages = Array.from({ length: totalPages }, (element, index) => {
     return index + 1;
   });
+  console.log("re-render");
   const nextPage = () => {
     let newPage = currentPage + 1;
     if (newPage > totalPages) {
@@ -22,35 +22,35 @@ const Pagination = () => {
       newPage = totalPages;
     }
     dispatch(changePage(newPage));
-    return (
-      <Wrapper>
-        <button type="button" className="prev-btn" onClick={prevPage}>
-          <HiChevronDoubleLeft />
-          prev
-        </button>
-        <div className="btn-container">
-          {pages.map((pageNumber) => {
-            return (
-              <button
-                type="button"
-                key={pageNumber}
-                className={
-                  pageNumber === currentPage ? "pageBtn active" : "pageBtn"
-                }
-                onClick={() => dispatch(changePage(pageNumber))}
-              >
-                {pageNumber}
-              </button>
-            );
-          })}
-        </div>
-        <button type="button" className="next-btn" onClick={nextPage}>
-          next
-          <HiChevronDoubleRight />
-        </button>
-      </Wrapper>
-    );
   };
+  return (
+    <Wrapper>
+      <button type="button" className="prev-btn" onClick={prevPage}>
+        <HiChevronDoubleLeft />
+        prev
+      </button>
+      <div className="btn-container">
+        {pages.map((pageNumber) => {
+          return (
+            <button
+              type="button"
+              key={pageNumber}
+              className={
+                pageNumber === currentPage ? "pageBtn active" : "pageBtn"
+              }
+              onClick={() => dispatch(changePage(pageNumber))}
+            >
+              {pageNumber}
+            </button>
+          );
+        })}
+      </div>
+      <button type="button" className="next-btn" onClick={nextPage}>
+        next
+        <HiChevronDoubleRight />
+      </button>
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.section`
@@ -100,8 +100,8 @@ const Wrapper = styled.section`
   }
   .prev-btn:hover,
   .next-btn:hover {
-    background: var(--primary-500);
-    color: var(--white);
+    background: #627d98;
+    color: #fff;
   }
 `;
-export default Pagination;
+export default ButtonPage;

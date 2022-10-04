@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { forgotPassword } from "../../features/user/userSlice";
 import Header from "../../components/layout/Header";
+
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const ForgotPassword = () => {
   return (
     <>
       <Header />
+
       <div className="container-forgot">
         <form className="container-form">
           <h1 className="title-large-forgot">Forgot password</h1>

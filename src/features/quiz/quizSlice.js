@@ -1,21 +1,22 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getQuestionPlayThunk, getAllQuestionsThunk } from "./quizThunk";
+import { getQuestionPlayThunk, deleteQuizThunk } from "./quizThunk";
 
 export const getQuestionPlay = createAsyncThunk(
   "quiz/getQuestionPlay",
   async (payload, thunkAPI) => {
     const { total, token } = payload;
     return getQuestionPlayThunk(
-      `https://quangnh.xyz/v1/questions/play?total=${total}`,
+      `/questions/play?total=${total}`,
       token,
       thunkAPI
     );
   }
 );
-export const getAllQuestions = createAsyncThunk(
-  "quiz/getAllQuestions",
-  async (token, thunkAPI) => {
-    return getAllQuestionsThunk(`/questions?sortField=id`, token, thunkAPI);
+export const deleteQuiz = createAsyncThunk(
+  "quiz/deleteQuiz",
+  async (payload, thunkAPI) => {
+    const { id, token } = payload;
+    return deleteQuizThunk(`/questions/${id}`, token, thunkAPI);
   }
 );
 const initialState = {
@@ -41,8 +42,8 @@ const quizSlice = createSlice({
   },
   extraReducers: {
     [getQuestionPlay.pending]: (state) => {
-      state.isSuccesQuiz = false;
-      state.isLoadingQuiz = true;
+      state.isSuccess = false;
+      state.isLoading = true;
     },
     [getQuestionPlay.fulfilled]: (state, { payload }) => {
       state.index = 0;
@@ -55,18 +56,15 @@ const quizSlice = createSlice({
       state.isLoading = false;
       state.isSucces = false;
     },
-    [getAllQuestions.pending]: (state) => {
+    [deleteQuiz.pending]: (state) => {
       state.isSucces = false;
       state.isLoading = true;
     },
-    [getAllQuestions.fulfilled]: (state, { payload }) => {
-      state.allQuiz = payload.data.result;
+    [deleteQuiz.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      state.isSucces = true;
     },
-    [getAllQuestions.rejected]: (state) => {
+    [deleteQuiz.rejected]: (state) => {
       state.isLoading = false;
-      state.isSucces = false;
     },
   },
 });

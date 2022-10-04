@@ -4,6 +4,7 @@ import Sidebar from "../../components/layout/SideBar";
 import Header from "../../components/layout/Header";
 import TableQuestion from "../../components/questions/TableQuestions";
 import SearchContainer from "../../components/layout/SearchContainer";
+import ButtonPage from "../../components/layout/ButtonPage";
 
 const SharedLayout = () => {
   return (
@@ -16,6 +17,7 @@ const SharedLayout = () => {
             <Outlet />
             <SearchContainer />
             <TableQuestion />
+            <ButtonPage />
           </div>
         </div>
       </main>

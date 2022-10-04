@@ -20,12 +20,9 @@ const initialState = {
 export const getAllQuiz = createAsyncThunk(
   "searchQuiz/getAllQuiz",
   async (payload, thunkAPI) => {
-    console.log("check payload", payload);
     const { token, sort, searchType, currentPage, search } = payload;
     let url = `/questions?oder=${sort}&sortField=${searchType}&page=${currentPage}`;
-    if (searchType === "all") {
-      url = "/questions";
-    }
+
     if (search) {
       url = url + `&keyWord=${search}`;
     }
@@ -43,6 +40,7 @@ const searchQuizSlice = createSlice({
       state.isLoading = false;
     },
     handleChange: (state, { payload: { name, value } }) => {
+      console.log("handle change");
       state.currentPage = 1;
       state[name] = value;
     },
@@ -51,6 +49,7 @@ const searchQuizSlice = createSlice({
     },
     changePage: (state, { payload }) => {
       state.currentPage = payload;
+      console.log(" change page");
     },
     clearAllQuizState: (state) => initialState,
   },
@@ -58,17 +57,15 @@ const searchQuizSlice = createSlice({
   extraReducers: {
     [getAllQuiz.pending]: (state) => {
       state.isLoading = true;
-      console.log("pending");
     },
     [getAllQuiz.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      console.log("ok", payload);
       state.quizs = payload?.data?.result;
       state.currentPage = payload?.data?.currentPage;
       state.totalPages = payload?.data?.totalPages;
       state.totalQuiz = payload?.data?.total;
     },
-    [getAllQuiz.rejected]: (state, { payload }) => {
+    [getAllQuiz.rejected]: (state) => {
       state.isLoading = false;
     },
   },

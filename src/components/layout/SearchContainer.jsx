@@ -37,7 +37,7 @@ const SearchContainer = () => {
             name="searchType"
             value={searchType}
             handleChange={handleSearch}
-            list={["all", ...searchTypeOptions]}
+            list={[...searchTypeOptions]}
           />
           <InputSelect
             id="sort"

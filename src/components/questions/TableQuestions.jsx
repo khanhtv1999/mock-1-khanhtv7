@@ -2,6 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllQuestions } from "../../features/quiz/quizSlice";
+import { getAllQuiz } from "../../features/quiz/searchQuizSlice";
 import { useEffect } from "react";
 import defaultImg from "../../assets/defaultImage.png";
 import { TiPen } from "react-icons/ti";
@@ -9,10 +10,23 @@ import { TiPen } from "react-icons/ti";
 const TableQuestion = () => {
   var moment = require("moment");
   const { user } = useSelector((store) => store.user);
+  const { sort, searchType, currentPage, title } = useSelector(
+    (store) => store.searchQuiz
+  );
+  console.log(sort, searchType, currentPage, title);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getAllQuestions(user.access_token));
-  }, []);
+    console.log("đổi");
+    dispatch(
+      getAllQuiz({
+        token: user.access_token,
+        sort: sort,
+        searchType: searchType,
+        currentPage: currentPage,
+        title: title,
+      })
+    );
+  }, [title, sort, searchType]);
   const { allQuiz } = useSelector((store) => store.quiz);
 
   return (

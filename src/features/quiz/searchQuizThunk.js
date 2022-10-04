@@ -1,15 +1,13 @@
 import customFetch from "../../utils/axiosCustomize";
-export const getAllQuizThunk = async (_, thunkAPI) => {
-  const { totalPages, search, searchType, sort } = thunkAPI.getState().allJobs;
-
-  let url = `/questions?oder=${sort}&sortField=${searchType}&sort=${sort}&page=${totalPages}`;
-  if (search) {
-    url = url + `&keyWord=${search}`;
-  }
+export const getAllQuizThunk = async (url, token, thunkAPI) => {
   try {
-    const resp = await customFetch.get(url);
+    console.log("try");
+    const resp = await customFetch.get(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    console.log("check res", resp.data);
     return resp.data;
   } catch (error) {
-    return checkForUnauthorizedResponse(error, thunkAPI);
+    return thunkAPI.rejectWithValue(error.response.data);
   }
 };

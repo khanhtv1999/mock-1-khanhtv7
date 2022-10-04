@@ -1,9 +1,30 @@
 import InputBasic from "../input/InputBasic";
 import InputSelect from "../input/InputSelect";
 import styled from "styled-components";
-import { Zoom } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  handleChange,
+  clearFilters,
+} from "../../features/quiz/searchQuizSlice";
 const SearchContainer = () => {
-  const handleSearch = () => {};
+  const dispatch = useDispatch();
+  const {
+    isLoading,
+    searchTypeOptions,
+    sortOptions,
+    searchType,
+    sort,
+    search,
+  } = useSelector((store) => store.searchQuiz);
+
+  const handleSearch = (e) => {
+    if (isLoading) return;
+    dispatch(handleChange({ name: e.target.name, value: e.target.value }));
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(clearFilters());
+  };
 
   return (
     <Wrapper>
@@ -11,23 +32,25 @@ const SearchContainer = () => {
         <h4>Search form</h4>
         <div className="form-center">
           <InputSelect
-            labelText="Type"
-            name="searchStatus"
-            value="haha"
+            id="type"
+            labelText="searchType"
+            name="searchType"
+            value={searchType}
             handleChange={handleSearch}
-            list={[1, 3, 4, 5, 6]}
+            list={[...searchTypeOptions]}
           />
           <InputSelect
+            id="sort"
             labelText="Sort"
-            name="searchStatus"
-            value="haha"
+            name="sort"
+            value={sort}
             handleChange={handleSearch}
-            list={["A - Z", "Z - A"]}
+            list={[...sortOptions]}
           />
           <InputBasic
             type="text"
             name="search"
-            value="huhu"
+            value={search}
             handleChange={handleSearch}
           />
         </div>

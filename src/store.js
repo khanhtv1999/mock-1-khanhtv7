@@ -5,10 +5,12 @@ import { persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
 import userSlice from "./features/user/userSlice";
 import quizSlice from "./features/quiz/quizSlice";
+import searchQuizSlice from "./features/quiz/searchQuizSlice";
 
 const reducers = combineReducers({
   user: userSlice,
   quiz: quizSlice,
+  searchQuiz: searchQuizSlice,
 });
 const persistConfig = {
   key: "root",

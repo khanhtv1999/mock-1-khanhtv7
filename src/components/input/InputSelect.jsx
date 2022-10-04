@@ -1,4 +1,4 @@
-const InputSelect = ({ labelText, name, value, list }) => {
+const InputSelect = ({ labelText, name, value, list, handleChange, type }) => {
   return (
     <div className="form-row">
       <label htmlFor={name} className="form-label">
@@ -7,8 +7,9 @@ const InputSelect = ({ labelText, name, value, list }) => {
       <select
         name={name}
         id={name}
+        type={type}
         value={value}
-        // onChange={handleChange}
+        onChange={handleChange}
         className="form-select"
       >
         {list.map((itemValue, index) => {

@@ -1,14 +1,15 @@
-import "./App.css";
+import "../src/assets/css/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LandingPage from "./pages/generalPage/LandingPage";
-import LoginPage from "./pages/generalPage/LoginPage";
-import RegisterPage from "./pages/generalPage/RegisterPage";
-import ForgotPassword from "./pages/generalPage/ForgotPassword";
-import ChooseNumQuiz from "./pages/generalPage/ChooseNumQuiz";
-import DoQuizPage from "./pages/generalPage/DoQuizPage";
-import SharedLayout from "./pages/adminPage/shareLayout";
-import TableQuestions from "./components/questions/TableQuestions";
-import SearchContainer from "./components/layout/SearchContainer";
+import LandingPage from "./pages/generalPage/landingPage/LandingPage";
+import LoginPage from "./pages/generalPage/authenticationPage/LoginPage";
+import RegisterPage from "./pages/generalPage/authenticationPage/RegisterPage";
+import { ForgotPassword } from "../src/pages/generalPage/authenticationPage";
+import ChooseNumQuiz from "./pages/generalPage/doQuizPage/ChooseNumQuiz";
+import DoQuizPage from "./pages/generalPage/doQuizPage/DoQuizPage";
+import SharedLayout from "./pages/adminPage/dashboard/ShareLayout";
+import TableQuestions from "./components/TableQuestionComponent/TableQuestions";
+import SearchContainer from "./components/SearchQuizComponent/SearchContainer";
+import ShowResult from "./components/questions/ShowResultComponent/ShowResult";
 function App() {
   return (
     <BrowserRouter>
@@ -19,7 +20,7 @@ function App() {
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="choose-number" element={<ChooseNumQuiz />} />
         <Route path="do-quiz" element={<DoQuizPage />} />
-        <Route path="sidebar" element={<SharedLayout />} />
+        <Route path="sidebar" element={<ShowResult />} />
       </Routes>
     </BrowserRouter>
   );

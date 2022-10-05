@@ -1,4 +1,4 @@
-import customFetch from "../../utils/axiosCustomize";
+import customFetch from "../../utils/axios/axiosCustomize";
 export const getAllQuizThunk = async (url, token, thunkAPI) => {
   try {
     console.log("try");

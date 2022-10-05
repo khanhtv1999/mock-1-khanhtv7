@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getAllQuizThunk } from "./searchQuizThunk";
-import customFetch from "../../utils/axiosCustomize";
+import customFetch from "../../utils/axios/axiosCustomize";
 const initialFiltersState = {
   search: "",
-  searchType: "all",
+  searchType: "id",
   sort: "ACS",
   searchTypeOptions: ["id", "thumbnail", "createdAt", "updatedAt"],
   sortOptions: ["ASC", "DESC"],

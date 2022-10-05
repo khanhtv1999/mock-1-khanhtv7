@@ -1,5 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getQuestionPlayThunk, deleteQuizThunk } from "./quizThunk";
+import {
+  getQuestionPlayThunk,
+  deleteQuizThunk,
+  submitAnsThunk,
+} from "./quizThunk";
 
 export const getQuestionPlay = createAsyncThunk(
   "quiz/getQuestionPlay",
@@ -19,12 +23,23 @@ export const deleteQuiz = createAsyncThunk(
     return deleteQuizThunk(`/questions/${id}`, token, thunkAPI);
   }
 );
+export const submitAns = createAsyncThunk(
+  "quiz/submitAns",
+  async (payload, thunkAPI) => {
+    const { questionsSubmit, token } = payload;
+    return submitAnsThunk(`questions/submit`, token, questionsSubmit, thunkAPI);
+  }
+);
 const initialState = {
   quiz: [],
   isSucces: false,
   isLoading: false,
   index: 0,
   allQuiz: [],
+  questionsChecked: 0,
+  number: 0,
+  score: 0,
+  submitSucces: false,
 };
 const quizSlice = createSlice({
   name: "quiz",
@@ -38,6 +53,10 @@ const quizSlice = createSlice({
     },
     setQuestion: (state, { payload }) => {
       state.index = payload;
+    },
+    resetQuestions: (state, { payload }) => {
+      state.quiz = [];
+      state.index = 0;
     },
   },
   extraReducers: {
@@ -66,7 +85,18 @@ const quizSlice = createSlice({
     [deleteQuiz.rejected]: (state) => {
       state.isLoading = false;
     },
+    [submitAns.pending]: (state) => {
+      state.isSucces = false;
+    },
+    [submitAns.fulfilled]: (state, { payload }) => {
+      state.questionsChecked = payload.listQuestionChecked;
+      state.number = payload.listQuestionChecked.length;
+      state.score = payload.totalScore;
+    },
+    [submitAns.rejected]: (state) => {
+      state.isLoading = false;
+    },
   },
 });
-export const { chooseAnswer, setQuestion } = quizSlice.actions;
+export const { chooseAnswer, setQuestion, resetQuestions } = quizSlice.actions;
 export default quizSlice.reducer;

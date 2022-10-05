@@ -51,7 +51,7 @@ export const forgotPassword = createAsyncThunk(
 );
 const userSlice = createSlice({
   name: "user",
-  initialState,
+  initialState: initialState,
   reducers: {
     toggleSidebar: (state) => {
       state.isSidebarOpen = !state.isSidebarOpen;
@@ -74,7 +74,7 @@ const userSlice = createSlice({
     },
     [loginUser.fulfilled]: (state, { payload }) => {
       const { user, tokens } = payload.data;
-      state.user.id = user.id;
+      state.user.id = user?.id;
       state.user.name = user?.name;
       state.user.email = user?.email;
       state.user.roles = user?.roles;
@@ -82,8 +82,6 @@ const userSlice = createSlice({
       state.user.access_token = tokens?.access_token?.access_token;
       state.user.refresh_token = tokens?.refresh_token?.refresh_token;
       state.isAuthenticated = true;
-      state.isLoading = false;
-      state.isSidebarOpen = false;
     },
     [loginUser.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -100,7 +98,7 @@ const userSlice = createSlice({
     [logoutUser.pending]: (state) => {
       state.isLoading = true;
     },
-    [logoutUser.fulfilled]: (state) => {
+    [logoutUser.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
       state.user.id = "";
       state.user.name = "";

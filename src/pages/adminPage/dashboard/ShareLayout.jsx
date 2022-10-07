@@ -5,6 +5,8 @@ import Header from "../../../components/HeaderComponent/Header";
 import TableQuestion from "../../../components/TableQuestionComponent/TableQuestions";
 import SearchContainer from "../../../components/SearchQuizComponent/SearchContainer";
 import ButtonPage from "../../../components/PaginationComponent/Pagination";
+import AddQuestion from "./AddQuestion";
+import ModalUpdateQuiz from "../../../components/ModalComponents/ModalUpdateQuiz";
 
 const SharedLayout = () => {
   return (
@@ -15,9 +17,10 @@ const SharedLayout = () => {
           <Header />
           <div className="dashboard-page">
             <Outlet />
-            <SearchContainer />
+            {/* <SearchContainer />
             <TableQuestion />
-            <ButtonPage />
+            <ButtonPage /> */}
+            <ModalUpdateQuiz />
           </div>
         </div>
       </main>
@@ -25,11 +28,11 @@ const SharedLayout = () => {
   );
 };
 const Wrapper = styled.section`
-  top: 0;
+  /* top: 0;
   bottom: 0;
   position: fixed;
   overflow-y: scroll;
-  overflow-x: hidden;
+  overflow-x: hidden; */
   .dashboard {
     font-size: 1.5rem;
     display: grid;

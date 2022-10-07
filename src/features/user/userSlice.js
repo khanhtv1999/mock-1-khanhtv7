@@ -5,6 +5,7 @@ import {
   forgotPasswordThunk,
   logoutUserThunk,
 } from "./userThunk";
+import { message } from "antd";
 
 const initialState = {
   user: {
@@ -65,6 +66,7 @@ const userSlice = createSlice({
       const { user } = payload.data;
       state.isLoading = false;
       state.user = user;
+      message.success(`Hello, welcome back ${payload.data.name}`, 3);
     },
     [registerUser.rejected]: (state, { payload }) => {
       state.isLoading = false;

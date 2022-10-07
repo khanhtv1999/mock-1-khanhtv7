@@ -1,11 +1,12 @@
 import customFetch from "../../utils/axios/axiosCustomize";
+import { message } from "antd";
 
 export const registerUserThunk = async (url, user, thunkAPI) => {
   try {
     const resp = await customFetch.post(url, user);
     return resp.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
+    return thunkAPI.rejectWithValue(error.response.data.message);
   }
 };
 export const loginUserThunk = async (url, user, thunkAPI) => {
@@ -13,7 +14,8 @@ export const loginUserThunk = async (url, user, thunkAPI) => {
     const resp = await customFetch.post(url, user);
     return resp.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
+    message.error(error.response.data.message, 10);
+    return thunkAPI.rejectWithValue(error.response.data.message);
   }
 };
 export const forgotPasswordThunk = async (url, email, thunkAPI) => {
@@ -21,7 +23,7 @@ export const forgotPasswordThunk = async (url, email, thunkAPI) => {
     const resp = await customFetch.post(url, email);
     return resp.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
+    message.error(error.response.data.message, 10);
   }
 };
 export const logoutUserThunk = async (url, refresh_token, thunkAPI) => {

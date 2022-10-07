@@ -4,7 +4,6 @@ import Circle from "../../../components/CircleComponent/Circle";
 import { Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import FormQuiz from "../../../components/questions/DoQuizComponent/DoQuiz";
-// import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { setQuestion } from "../../../../src/features/quiz/quizSlice";
 import { SubmitQuiz } from "../../../components/questions/SubmitQuizComponent";
@@ -12,7 +11,7 @@ import { SubmitQuiz } from "../../../components/questions/SubmitQuizComponent";
 const DoQuizPage = () => {
   const { quiz, index } = useSelector((store) => store.quiz);
   const dispatch = useDispatch();
-
+  console.log(quiz.length, index);
   const handleClickNext = () => {
     dispatch(setQuestion(index + 1));
   };
@@ -35,13 +34,28 @@ const DoQuizPage = () => {
           direction="row"
           spacing={3}
         >
-          <Button onClick={handleClickBack} type="primary" size={30}>
+          {/* <Button onClick={handleClickBack} type="primary" size={30}>
             Back
           </Button>
           <Button onClick={handleClickNext} type="primary" size={30}>
             Next
-          </Button>
-          <SubmitQuiz />
+          </Button> */}
+          {index > 0 ? (
+            <Button onClick={handleClickBack} type="primary" size={30}>
+              Back Quiz
+            </Button>
+          ) : (
+            <></>
+          )}
+          {index < quiz.length - 1 ? (
+            <Button onClick={handleClickNext} type="primary" size={30}>
+              Next Quiz
+            </Button>
+          ) : (
+            <></>
+          )}
+
+          {index === quiz.length - 1 ? <SubmitQuiz /> : <></>}
         </Stack>
       </Wrapper>
     </>

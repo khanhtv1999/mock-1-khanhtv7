@@ -94,6 +94,8 @@ export default function Register() {
                   mb: 2,
                 }}
                 fullWidth
+                InputLabelProps={{ style: { fontSize: 15 } }}
+                InputProps={{ style: { fontSize: 20 } }}
                 id="email"
                 name="email"
                 label="Email"
@@ -109,6 +111,8 @@ export default function Register() {
                 fullWidth
                 id="name"
                 name="name"
+                InputProps={{ style: { fontSize: 20 } }}
+                InputLabelProps={{ style: { fontSize: 15 } }}
                 label="Name"
                 value={formik.values.name}
                 onChange={formik.handleChange}
@@ -120,6 +124,8 @@ export default function Register() {
                   mb: 2,
                 }}
                 fullWidth
+                InputProps={{ style: { fontSize: 20 } }}
+                InputLabelProps={{ style: { fontSize: 15 } }}
                 id="password"
                 name="password"
                 label="Password"
@@ -140,12 +146,12 @@ export default function Register() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link sx={{ fontSize: 15 }} href="#" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link sx={{ fontSize: 15 }} href="#" variant="body2">
                     {"You have an account? Login"}
                   </Link>
                 </Grid>

@@ -13,7 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../features/user/userSlice";
-
+import { useNavigate } from "react-router";
 import { toggleSidebar } from "../../features/user/userSlice";
 
 const pages = ["Admin", "User"];
@@ -21,7 +21,7 @@ const settings = ["Profile", "Logout"];
 
 const ResponsiveAppBar = () => {
   const { user } = useSelector((store) => store.user);
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -41,7 +41,7 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(null);
     if (setting === "Logout") {
       dispatch(logoutUser(user.refresh_token));
-      console.log("refresh_token", user.refresh_token);
+      navigate("/");
     }
   };
   const toggle = () => {

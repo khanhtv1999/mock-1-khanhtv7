@@ -20,7 +20,8 @@ function App() {
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="choose-number" element={<ChooseNumQuiz />} />
         <Route path="do-quiz" element={<DoQuizPage />} />
-        <Route path="sidebar" element={<ShowResult />} />
+        <Route path="show-result" element={<ShowResult />} />
+        <Route path="admin" element={<SharedLayout />} />
       </Routes>
     </BrowserRouter>
   );

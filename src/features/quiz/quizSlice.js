@@ -3,6 +3,8 @@ import {
   getQuestionPlayThunk,
   deleteQuizThunk,
   submitAnsThunk,
+  fetchQuizbyIdThunk,
+  updateAnswerThunk,
 } from "./quizThunk";
 
 export const getQuestionPlay = createAsyncThunk(
@@ -27,12 +29,26 @@ export const submitAns = createAsyncThunk(
   "quiz/submitAns",
   async (payload, thunkAPI) => {
     const { questionsSubmit, token } = payload;
-    return submitAnsThunk(`questions/submit`, token, questionsSubmit, thunkAPI);
+    return submitAnsThunk("questions/submit", token, questionsSubmit, thunkAPI);
+  }
+);
+export const fetchQuizbyId = createAsyncThunk(
+  "quiz/fetchQuizbyId",
+  async (payload, thunkAPI) => {
+    const { id, token } = payload;
+    return fetchQuizbyIdThunk(`questions/${id}`, token, thunkAPI);
+  }
+);
+export const updateAnswer = createAsyncThunk(
+  "creatQuiz/updateAnswer",
+  async (payload, thunkAPI) => {
+    const { id, is_correct, token } = payload;
+    return updateAnswerThunk(`/answers/${id}`, token, is_correct, thunkAPI);
   }
 );
 const initialState = {
   quiz: [],
-  isSucces: false,
+  isSuccess: false,
   isLoading: false,
   index: 0,
   allQuiz: [],
@@ -40,6 +56,7 @@ const initialState = {
   number: 0,
   score: 0,
   submitSucces: false,
+  quizCurrent: "",
 };
 const quizSlice = createSlice({
   name: "quiz",
@@ -57,6 +74,7 @@ const quizSlice = createSlice({
     resetQuestions: (state, { payload }) => {
       state.quiz = [];
       state.index = 0;
+      state.isSuccess = false;
     },
   },
   extraReducers: {
@@ -69,14 +87,14 @@ const quizSlice = createSlice({
       console.log(payload?.data);
       state.quiz = payload?.data;
       state.isLoading = false;
-      state.isSucces = true;
+      state.isSuccess = true;
     },
     [getQuestionPlay.rejected]: (state) => {
       state.isLoading = false;
-      state.isSucces = false;
+      state.isSuccess = false;
     },
     [deleteQuiz.pending]: (state) => {
-      state.isSucces = false;
+      state.isSuccess = false;
       state.isLoading = true;
     },
     [deleteQuiz.fulfilled]: (state, { payload }) => {
@@ -86,7 +104,7 @@ const quizSlice = createSlice({
       state.isLoading = false;
     },
     [submitAns.pending]: (state) => {
-      state.isSucces = false;
+      state.isSuccess = false;
     },
     [submitAns.fulfilled]: (state, { payload }) => {
       state.questionsChecked = payload.listQuestionChecked;
@@ -94,6 +112,30 @@ const quizSlice = createSlice({
       state.score = payload.totalScore;
     },
     [submitAns.rejected]: (state) => {
+      state.isLoading = false;
+    },
+    [fetchQuizbyId.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [fetchQuizbyId.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      console.log("check p", payload.data);
+      state.quizCurrent = payload.data;
+    },
+    [fetchQuizbyId.rejected]: (state) => {
+      state.isLoading = false;
+    },
+    [updateAnswer.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [updateAnswer.fulfilled]: (state, { payload }) => {
+      console.log("checkkkk", payload);
+      state.quizCurrent.answers = state.quizCurrent.answers.map((item) => {
+        if (item.id === payload.data.id) return payload.data;
+        else return item;
+      });
+    },
+    [updateAnswer.rejected]: (state) => {
       state.isLoading = false;
     },
   },

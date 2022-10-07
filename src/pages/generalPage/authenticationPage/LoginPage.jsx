@@ -15,9 +15,8 @@ import * as yup from "yup";
 import imageLogin from "../../../assets/images/defaultImage.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { loginUser } from "../../../features/user/userSlice";
-
 
 const theme = createTheme();
 const validationSchema = yup.object({
@@ -29,7 +28,7 @@ const validationSchema = yup.object({
 });
 export default function SignInSide() {
   const dispatch = useDispatch();
-  const { isAuthenticated, user } = useSelector((store) => store.user);
+  const { isAuthenticated, isLoading } = useSelector((store) => store.user);
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -47,31 +46,21 @@ export default function SignInSide() {
     setLoading(true);
     console.log(email, password);
     dispatch(loginUser({ email: email, password: password }));
-    // const roles = user.roles;
-    // if (isAuthenticated && roles.include("admin") === false) {
-    //   return null;
-    // }
-    // return isAuthenticated && roles.include("admin")
-    //   ? navigate("/sidebar")
-    //   : navigate("/choose-quiz");
-    // if (roles.include("admin")) {
-    //   navigate("/sidebar");
-    // } else {
-    //   navigate("/choose-number");
-    // }
+    if (isAuthenticated === false) {
+      return null;
+    }
   };
-
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   setLoading(true);
-  //   const data = new FormData(event.currentTarget);
-  //   dispatch(
-  //     loginUser({ email: data.get("email"), password: data.get("password") })
-  //   );
-  // };
-  // if (isAuthenticated) {
-  //   navigate("/choose-number");
-  // }
+  useEffect(() => {
+    if (isAuthenticated === true) {
+      navigate("/choose-number");
+    }
+    setLoading(false);
+  }, [isAuthenticated]);
+  useEffect(() => {
+    if (isLoading === false) {
+      setLoading(isLoading);
+    }
+  }, [isLoading]);
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -92,17 +81,25 @@ export default function SignInSide() {
             backgroundPosition: "center",
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid
+          item
+          xs={12}
+          sm={30}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
+        >
           <Box
             sx={{
-              my: 8,
+              my: 10,
               mx: 4,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main", fontSize: 20 }}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
@@ -112,14 +109,16 @@ export default function SignInSide() {
             <Box
               component="form"
               noValidate
-              sx={{ mt: 1 }}
+              sx={{ mt: 8 }}
               onSubmit={formik.handleSubmit}
             >
               <TextField
                 sx={{
-                  mb: 2,
+                  mb: 4,
                 }}
                 fullWidth
+                InputProps={{ style: { fontSize: 20 } }}
+                InputLabelProps={{ style: { fontSize: 20 } }}
                 id="email"
                 name="email"
                 label="Email"
@@ -129,6 +128,11 @@ export default function SignInSide() {
                 helperText={formik.touched.email && formik.errors.email}
               />
               <TextField
+                sx={{
+                  mb: 2,
+                }}
+                InputProps={{ style: { fontSize: 20 } }}
+                InputLabelProps={{ style: { fontSize: 20 } }}
                 fullWidth
                 id="password"
                 name="password"
@@ -152,12 +156,16 @@ export default function SignInSide() {
               </LoadingButton>
               <Grid container>
                 <Grid item xs>
-                  <Link href="forgot-password" variant="body2">
+                  <Link
+                    sx={{ fontSize: 15 }}
+                    href="forgot-password"
+                    variant="body2"
+                  >
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link sx={{ fontSize: 15 }} href="register" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

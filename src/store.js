@@ -6,11 +6,13 @@ import thunk from "redux-thunk";
 import userSlice from "./features/user/userSlice";
 import quizSlice from "./features/quiz/quizSlice";
 import searchQuizSlice from "./features/quiz/searchQuizSlice";
+import createQuizSlice from "./features/quiz/createQuizSlice";
 
 const reducers = combineReducers({
   user: userSlice,
   quiz: quizSlice,
   searchQuiz: searchQuizSlice,
+  createQuiz: createQuizSlice,
 });
 const persistConfig = {
   key: "root",

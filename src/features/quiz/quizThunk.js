@@ -33,3 +33,30 @@ export const submitAnsThunk = async (url, token, questionsSubmit, thunkAPI) => {
     return thunkAPI.rejectWithValue(error.message);
   }
 };
+export const fetchQuizbyIdThunk = async (url, token, thunkAPI) => {
+  try {
+    const res = await customFetch.get(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+};
+export const updateAnswerThunk = async (url, token, is_correct, thunkAPI) => {
+  try {
+    const res = await customFetch.patch(
+      url,
+      { is_correct },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return res.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+};

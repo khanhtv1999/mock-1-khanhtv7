@@ -1,22 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Input } from "antd";
-import { Button } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../../components/HeaderComponent/Header";
 import background from "../../../assets/images/image-chooseNumber.jpg";
 import { getQuestionPlay } from "../../../features/quiz/quizSlice";
+import { useNavigate } from "react-router";
 
 const ChooseNumQuiz = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.user);
+  const { isSuccess } = useSelector((store) => store.quiz);
   const [number, setNumber] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const handleClick = () => {
-    console.log(number);
+    setLoading(true);
     dispatch(getQuestionPlay({ total: number, token: user.access_token }));
   };
-
+  useEffect(() => {
+    setLoading(false);
+    if (isSuccess === true) {
+      navigate("/do-quiz");
+    }
+  }, [isSuccess]);
   return (
     <>
       <Header />
@@ -29,9 +38,16 @@ const ChooseNumQuiz = () => {
               setNumber(e.target.value);
             }}
           />
-          <Button onClick={handleClick} variant="contained" size="large">
-            Do quiz now
-          </Button>
+          <LoadingButton
+            onClick={handleClick}
+            loading={loading}
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign In
+          </LoadingButton>
         </div>
       </Wrapper>
     </>

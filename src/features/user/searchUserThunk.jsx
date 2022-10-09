@@ -1,5 +1,6 @@
 import customFetch from "../../utils/axios/axiosCustomize";
-export const getAllQuizThunk = async (url, token, thunkAPI) => {
+
+export const getAllUserThunk = async (url, token, thunkAPI) => {
   try {
     const resp = await customFetch.get(url, {
       headers: { Authorization: `Bearer ${token}` },

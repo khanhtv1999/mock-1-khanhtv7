@@ -34,3 +34,54 @@ export const logoutUserThunk = async (url, refresh_token, thunkAPI) => {
     return thunkAPI.rejectWithValue(error.message);
   }
 };
+export const deleteUserThunk = async (url, token, thunkAPI) => {
+  try {
+    const resp = await customFetch.delete(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return resp.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+};
+export const fetchUserbyIdThunk = async (url, token, thunkAPI) => {
+  try {
+    const resp = await customFetch.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return resp.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+};
+export const updateUserThunk = async (
+  url,
+  email,
+  name,
+  roles,
+  token,
+  thunkAPI
+) => {
+  try {
+    const resp = await customFetch.patch(
+      url,
+      {
+        email: email,
+        name: name,
+        roles: roles,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return resp.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+};

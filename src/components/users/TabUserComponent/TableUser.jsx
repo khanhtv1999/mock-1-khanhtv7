@@ -1,24 +1,23 @@
 import * as React from "react";
 import styled from "styled-components";
-import { Popconfirm } from "antd";
+import { Popconfirm, Spin } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllQuiz } from "../../features/quiz/searchQuizSlice";
 import { useEffect } from "react";
-import defaultImg from "../../assets/images/defaultImage.png";
-import { deleteQuiz } from "../../features/quiz/quizSlice";
-import { fetchQuizbyId } from "../../features/quiz/quizSlice";
-import { Pagination } from "../PaginationComponent";
+import { getAllUser } from "../../../features/user/searchUserSlice";
+import { Tag, Image } from "antd";
+import { Pagination } from "../../PaginationComponent";
+import { deleteUser, fetchUserbyId } from "../../../features/user/userSlice";
+import { ModalUpdateUser } from "../../ModalComponents/";
 
-const TableQuestion = () => {
-  var moment = require("moment");
-  const { user } = useSelector((store) => store.user);
-  const { sort, searchType, currentPage, search, quizs, totalPages } =
-    useSelector((store) => store.searchQuiz);
+const TableUser = () => {
+  const { user, isLoading } = useSelector((store) => store.user);
+  const { sort, searchType, currentPage, search, users, role1, totalPages } =
+    useSelector((store) => store.searchUser);
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(
-      getAllQuiz({
+      getAllUser({
         token: user.access_token,
         sort: sort,
         searchType: searchType,
@@ -26,38 +25,40 @@ const TableQuestion = () => {
         search: search,
       })
     );
-  }, [search, sort, searchType, currentPage]);
+  }, [search, sort, searchType, currentPage, role1]);
   const confirm = (id) => {
-    dispatch(deleteQuiz({ id: id, token: user.access_token }));
+    dispatch(deleteUser({ id: id, token: user.access_token }));
   };
   const handleUpdate = (id) => {
-    dispatch(fetchQuizbyId({ id: id, token: user.access_token }));
+    dispatch(fetchUserbyId({ id: id, token: user.access_token }));
   };
   return (
     <Wrapper>
+      <ModalUpdateUser />
       <table>
         <thead>
           <tr>
-            <th>Title</th>
-            <th>Image</th>
-            <th>Date created</th>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Avatar</th>
+            <th>Roles</th>
             <th>Actions</th>
           </tr>
         </thead>
 
         <tbody>
-          {quizs.map((item) => {
+          {users.map((item) => {
             return (
               <tr key={item.id}>
-                <th>{item.title}</th>
+                <th>{item.email}</th>
+                <td>{item.name}</td>
                 <td>
-                  <img
-                    className="img"
-                    src={item.thumbnail_link ? item.thumbnail_link : defaultImg}
-                  />
+                  <Image width={100} src={item.avatar_link} />
                 </td>
                 <td>
-                  {moment(item.createdAt).format("h:mm:ss a,MMMM Do YYYY")}
+                  {item.roles.map((el) => {
+                    return <Tag color="#55acee">{el}</Tag>;
+                  })}
                 </td>
                 <td>
                   <svg
@@ -98,7 +99,7 @@ const TableQuestion = () => {
         <Pagination
           totalPages={totalPages}
           currentPage={currentPage}
-          feature={"question"}
+          feature={"user"}
         />
       </table>
     </Wrapper>
@@ -141,11 +142,7 @@ const Wrapper = styled.div`
   tbody tr:nth-child(even) {
     background-color: #e9ecef;
   }
-  img {
-    height: 50%;
-    width: 50%;
-    object-fit: contain;
-  }
+
   .w-6 {
     width: 3.5rem;
     margin-right: 1rem;
@@ -155,4 +152,4 @@ const Wrapper = styled.div`
     height: 3.5rem;
   }
 `;
-export default TableQuestion;
+export default TableUser;

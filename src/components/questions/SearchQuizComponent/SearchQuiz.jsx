@@ -1,12 +1,12 @@
-import InputBasic from "../inputComponents/InputBasic";
-import InputSelect from "../inputComponents/InputSelect";
+import InputBasic from "../../inputComponents/InputBasic";
+import InputSelect from "../../inputComponents/InputSelect";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import {
   handleChange,
   clearFilters,
-} from "../../features/quiz/searchQuizSlice";
-const SearchContainer = () => {
+} from "../../../features/quiz/searchQuizSlice";
+const SearchQuiz = () => {
   const dispatch = useDispatch();
   const {
     isLoading,
@@ -28,7 +28,7 @@ const SearchContainer = () => {
   return (
     <Wrapper>
       <form className="form">
-        <h4>Search form</h4>
+        <h4>Search Questions</h4>
         <div className="form-center">
           <InputSelect
             id="type"
@@ -104,4 +104,4 @@ const Wrapper = styled.section`
     }
   }
 `;
-export default SearchContainer;
+export default SearchQuiz;

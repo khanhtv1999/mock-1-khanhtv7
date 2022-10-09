@@ -41,7 +41,7 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(null);
     if (setting === "Logout") {
       dispatch(logoutUser(user.refresh_token));
-      navigate("/");
+      navigate("/landing");
     }
   };
   const toggle = () => {

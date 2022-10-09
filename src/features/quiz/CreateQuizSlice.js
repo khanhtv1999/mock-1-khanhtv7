@@ -1,9 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import {
-  upLoadImgThunk,
-  creatTitleQuizThunk,
-  updateAnswerThunk,
-} from "./creatQuizThunk";
+import { upLoadImgThunk, creatTitleQuizThunk } from "./creatQuizThunk";
 
 export const upLoadImg = createAsyncThunk(
   "creatQuiz/upLoadImg",

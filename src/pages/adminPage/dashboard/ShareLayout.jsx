@@ -3,7 +3,6 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "../../../components/SidebarComponent/SideBar";
 import Header from "../../../components/HeaderComponent/Header";
 import TableQuestion from "../../../components/TableQuestionComponent/TableQuestions";
-import SearchContainer from "../../../components/SearchQuizComponent/SearchContainer";
 import ButtonPage from "../../../components/PaginationComponent/Pagination";
 import AddQuestion from "./AddQuestion";
 import ModalUpdateQuiz from "../../../components/ModalComponents/ModalUpdateQuiz";
@@ -17,10 +16,6 @@ const SharedLayout = () => {
           <Header />
           <div className="dashboard-page">
             <Outlet />
-            {/* <SearchContainer />
-            <TableQuestion />
-            <ButtonPage /> */}
-            <ModalUpdateQuiz />
           </div>
         </div>
       </main>
@@ -31,7 +26,7 @@ const Wrapper = styled.section`
   /* top: 0;
   bottom: 0;
   position: fixed;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden; */
   .dashboard {
     font-size: 1.5rem;

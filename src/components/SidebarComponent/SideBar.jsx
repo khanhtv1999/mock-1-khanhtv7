@@ -89,7 +89,7 @@ const Wrapper = styled.aside`
       transition: 0.3s ease-in-out all;
     }
     .active {
-      color: #102a43;
+      color: red;
     }
     .active .icon {
       color: #3b82f6;

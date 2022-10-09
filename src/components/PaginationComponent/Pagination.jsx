@@ -2,26 +2,46 @@ import styled from "styled-components";
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi";
 import { useSelector, useDispatch } from "react-redux";
 import { changePage } from "../../features/quiz/searchQuizSlice";
-const Pagination = () => {
-  const { totalPages, currentPage } = useSelector((store) => store.searchQuiz);
+import { changePageUser } from "../../features/user/searchUserSlice";
+
+const Pagination = ({ totalPages, currentPage, feature }) => {
+  // const { totalPages, currentPage } = useSelector((store) => store.searchQuiz);
   const dispatch = useDispatch();
   const pages = Array.from({ length: totalPages }, (element, index) => {
     return index + 1;
   });
-  console.log("re-render");
+
   const nextPage = () => {
     let newPage = currentPage + 1;
     if (newPage > totalPages) {
       newPage = 1;
     }
-    dispatch(changePage(newPage));
+    if (feature === "question") {
+      dispatch(changePage(newPage));
+    }
+    if (feature === "user") {
+      dispatch(changePageUser(newPage));
+    }
   };
   const prevPage = () => {
     let newPage = currentPage - 1;
     if (newPage < 1) {
       newPage = totalPages;
     }
-    dispatch(changePage(newPage));
+    if (feature === "question") {
+      dispatch(changePage(newPage));
+    }
+    if (feature === "user") {
+      dispatch(changePageUser(newPage));
+    }
+  };
+  const handleClick = (pageNumber) => {
+    if (feature === "question") {
+      dispatch(changePage(pageNumber));
+    }
+    if (feature === "user") {
+      dispatch(changePageUser(pageNumber));
+    }
   };
   return (
     <Wrapper>
@@ -38,7 +58,7 @@ const Pagination = () => {
               className={
                 pageNumber === currentPage ? "pageBtn active" : "pageBtn"
               }
-              onClick={() => dispatch(changePage(pageNumber))}
+              onClick={() => handleClick(pageNumber)}
             >
               {pageNumber}
             </button>
@@ -54,8 +74,8 @@ const Pagination = () => {
 };
 
 const Wrapper = styled.section`
-  height: 6rem;
-  margin-top: 2rem;
+  height: 5rem;
+  margin-top: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: end;
@@ -68,7 +88,7 @@ const Wrapper = styled.section`
   .pageBtn {
     background: transparent;
     border-color: transparent;
-    width: 50px;
+    width: 40px;
     height: 40px;
     font-weight: 700;
     font-size: 1.25rem;

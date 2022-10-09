@@ -4,8 +4,11 @@ import {
   registerUserThunk,
   forgotPasswordThunk,
   logoutUserThunk,
+  deleteUserThunk,
+  fetchUserbyIdThunk,
+  updateUserThunk,
 } from "./userThunk";
-import { message } from "antd";
+import { toast } from "react-toastify";
 
 const initialState = {
   user: {
@@ -20,6 +23,7 @@ const initialState = {
   isAuthenticated: false,
   isLoading: false,
   isSidebarOpen: false,
+  userById: "",
 };
 
 export const registerUser = createAsyncThunk(
@@ -50,12 +54,42 @@ export const forgotPassword = createAsyncThunk(
     );
   }
 );
+export const deleteUser = createAsyncThunk(
+  "user/deleteUser",
+  async (payload, thunkAPI) => {
+    const { id, token } = payload;
+    return deleteUserThunk(`/user/${id}`, token, thunkAPI);
+  }
+);
+export const fetchUserbyId = createAsyncThunk(
+  "user/fetchUserbyId",
+  async (payload, thunkAPI) => {
+    const { id, token } = payload;
+    return fetchUserbyIdThunk(`/user/${id}`, token, thunkAPI);
+  }
+);
+export const updateUser = createAsyncThunk(
+  "user/updateUser",
+  async (payload, thunkAPI) => {
+    const { token, id, email, name, roles } = payload;
+    return updateUserThunk(`/user/${id}`, email, name, roles, token, thunkAPI);
+  }
+);
 const userSlice = createSlice({
   name: "user",
   initialState: initialState,
   reducers: {
     toggleSidebar: (state) => {
       state.isSidebarOpen = !state.isSidebarOpen;
+    },
+    setEmail: (state, { payload }) => {
+      state.userById.email = payload;
+    },
+    setName: (state, { payload }) => {
+      state.userById.name = payload;
+    },
+    setRoles: (state, { payload }) => {
+      state.userById.roles = payload;
     },
   },
   extraReducers: {
@@ -66,7 +100,6 @@ const userSlice = createSlice({
       const { user } = payload.data;
       state.isLoading = false;
       state.user = user;
-      message.success(`Hello, welcome back ${payload.data.name}`, 3);
     },
     [registerUser.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -114,7 +147,40 @@ const userSlice = createSlice({
     [logoutUser.rejected]: (state) => {
       state.isLoading = false;
     },
+    [logoutUser.rejected]: (state) => {
+      state.isLoading = false;
+    },
+    [deleteUser.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [deleteUser.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      toast.success("delete user success");
+    },
+    [deleteUser.rejected]: (state, payload) => {
+      state.isLoading = false;
+    },
+    [fetchUserbyId.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [fetchUserbyId.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      state.userById = payload.data;
+    },
+    [fetchUserbyId.rejected]: (state, payload) => {
+      state.isLoading = false;
+    },
+    [updateUser.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [updateUser.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+    },
+    [updateUser.rejected]: (state, payload) => {
+      console.log("pay", payload);
+      state.isLoading = false;
+    },
   },
 });
-export const { toggleSidebar } = userSlice.actions;
+export const { toggleSidebar, setName, setEmail, setRoles } = userSlice.actions;
 export default userSlice.reducer;

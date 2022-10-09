@@ -9,7 +9,7 @@ const initialFiltersState = {
   sortOptions: ["ASC", "DESC"],
 };
 const initialState = {
-  isLoading: true,
+  isLoading: false,
   quizs: [],
   pageSize: 10,
   currentPage: 1,
@@ -49,7 +49,6 @@ const searchQuizSlice = createSlice({
     },
     changePage: (state, { payload }) => {
       state.currentPage = payload;
-      console.log(" change page");
     },
     clearAllQuizState: (state) => initialState,
   },

@@ -10,22 +10,6 @@ import {
 } from "./userThunk";
 import { toast } from "react-toastify";
 
-const initialState = {
-  user: {
-    id: "",
-    email: "",
-    name: "",
-    roles: [],
-    avatar_link: "",
-    access_token: "",
-    refresh_token: "",
-  },
-  isAuthenticated: false,
-  isLoading: false,
-  isSidebarOpen: false,
-  userById: "",
-};
-
 export const registerUser = createAsyncThunk(
   "user/registerUser",
   async (user, thunkAPI) => {
@@ -75,6 +59,25 @@ export const updateUser = createAsyncThunk(
     return updateUserThunk(`/user/${id}`, email, name, roles, token, thunkAPI);
   }
 );
+const initialState = {
+  user: {
+    id: "",
+    email: "",
+    name: "",
+    roles: [],
+    avatar_link: "",
+    access_token: "",
+    refresh_token: "",
+  },
+  isAuthenticated: false,
+  isLoading: false,
+  isSidebarOpen: false,
+  userById: "",
+  isModalUpdateUser: false,
+  fetchUserSuccess: false,
+  deleteUserSucces: false,
+  isUpdate: false,
+};
 const userSlice = createSlice({
   name: "user",
   initialState: initialState,
@@ -90,6 +93,12 @@ const userSlice = createSlice({
     },
     setRoles: (state, { payload }) => {
       state.userById.roles = payload;
+    },
+    openModalUpdateUser: (state) => {
+      state.isModalUpdateUser = true;
+    },
+    closeModalUpdateUser: (state) => {
+      state.isModalUpdateUser = false;
     },
   },
   extraReducers: {
@@ -147,40 +156,51 @@ const userSlice = createSlice({
     [logoutUser.rejected]: (state) => {
       state.isLoading = false;
     },
-    [logoutUser.rejected]: (state) => {
-      state.isLoading = false;
-    },
+
     [deleteUser.pending]: (state) => {
       state.isLoading = true;
+      state.deleteUserSucces = false;
     },
     [deleteUser.fulfilled]: (state, { payload }) => {
+      state.deleteUserSucces = true;
       state.isLoading = false;
       toast.success("delete user success");
     },
     [deleteUser.rejected]: (state, payload) => {
       state.isLoading = false;
+      state.deleteUserSucces = false;
     },
     [fetchUserbyId.pending]: (state) => {
       state.isLoading = true;
+      state.fetchUserSuccess = false;
     },
     [fetchUserbyId.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
       state.userById = payload.data;
+      state.fetchUserSuccess = true;
     },
     [fetchUserbyId.rejected]: (state, payload) => {
       state.isLoading = false;
+      state.fetchUserSuccess = false;
     },
     [updateUser.pending]: (state) => {
-      state.isLoading = true;
+      state.isUpdate = true;
     },
     [updateUser.fulfilled]: (state, { payload }) => {
-      state.isLoading = false;
+      state.isUpdate = false;
+      toast.success("update user success");
     },
     [updateUser.rejected]: (state, payload) => {
-      console.log("pay", payload);
-      state.isLoading = false;
+      state.isUpdate = false;
     },
   },
 });
-export const { toggleSidebar, setName, setEmail, setRoles } = userSlice.actions;
+export const {
+  toggleSidebar,
+  setName,
+  setEmail,
+  setRoles,
+  openModalUpdateUser,
+  closeModalUpdateUser,
+} = userSlice.actions;
 export default userSlice.reducer;

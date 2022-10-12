@@ -145,13 +145,9 @@ export default function Register() {
                 Submit
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link sx={{ fontSize: 15 }} href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
+                <Grid item xs></Grid>
                 <Grid item>
-                  <Link sx={{ fontSize: 15 }} href="#" variant="body2">
+                  <Link sx={{ fontSize: 15 }} href="login" variant="body2">
                     {"You have an account? Login"}
                   </Link>
                 </Grid>

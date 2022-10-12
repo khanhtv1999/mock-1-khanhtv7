@@ -11,7 +11,7 @@ import { SubmitQuiz } from "../../../components/questions/SubmitQuizComponent";
 const DoQuizPage = () => {
   const { quiz, index } = useSelector((store) => store.quiz);
   const dispatch = useDispatch();
-  console.log(quiz.length, index);
+
   const handleClickNext = () => {
     dispatch(setQuestion(index + 1));
   };
@@ -34,12 +34,6 @@ const DoQuizPage = () => {
           direction="row"
           spacing={3}
         >
-          {/* <Button onClick={handleClickBack} type="primary" size={30}>
-            Back
-          </Button>
-          <Button onClick={handleClickNext} type="primary" size={30}>
-            Next
-          </Button> */}
           {index > 0 ? (
             <Button onClick={handleClickBack} type="primary" size={30}>
               Back Quiz
@@ -64,7 +58,7 @@ const DoQuizPage = () => {
 const Wrapper = styled.section`
   background-color: #f7f7f7;
   display: grid;
-  grid-template-columns: 70vw 30vw;
+  grid-template-columns: 75vw 25vw;
   grid-template-rows: 80vh;
 
   .left-content {

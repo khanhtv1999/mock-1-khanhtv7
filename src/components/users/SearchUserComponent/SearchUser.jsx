@@ -3,6 +3,7 @@ import InputBasic from "../../inputComponents/InputBasic";
 import InputSelect from "../../inputComponents/InputSelect";
 import { useDispatch, useSelector } from "react-redux";
 import { handleChange } from "../../../features/user/searchUserSlice";
+import { clearFiltersUser } from "../../../features/user/searchUserSlice";
 const SearchUser = () => {
   const dispatch = useDispatch();
   const {
@@ -16,6 +17,9 @@ const SearchUser = () => {
   } = useSelector((store) => store.searchUser);
   const handleSearch = (e) => {
     dispatch(handleChange({ name: e.target.name, value: e.target.value }));
+  };
+  const handleSubmit = () => {
+    dispatch(clearFiltersUser());
   };
   return (
     <Wrapper>
@@ -55,7 +59,7 @@ const SearchUser = () => {
           <button
             className="btn btn-block btn-danger"
             // disabled={isLoading}
-            // onClick={handleSubmit}
+            onClick={handleSubmit}
           >
             clear filters
           </button>

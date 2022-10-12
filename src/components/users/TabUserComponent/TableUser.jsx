@@ -6,11 +6,17 @@ import { useEffect } from "react";
 import { getAllUser } from "../../../features/user/searchUserSlice";
 import { Tag, Image } from "antd";
 import { Pagination } from "../../PaginationComponent";
-import { deleteUser, fetchUserbyId } from "../../../features/user/userSlice";
+import {
+  deleteUser,
+  fetchUserbyId,
+  openModalUpdateUser,
+} from "../../../features/user/userSlice";
 import { ModalUpdateUser } from "../../ModalComponents/";
 
 const TableUser = () => {
-  const { user, isLoading } = useSelector((store) => store.user);
+  const { user, isLoading, deleteUserSucces } = useSelector(
+    (store) => store.user
+  );
   const { sort, searchType, currentPage, search, users, role1, totalPages } =
     useSelector((store) => store.searchUser);
 
@@ -25,11 +31,12 @@ const TableUser = () => {
         search: search,
       })
     );
-  }, [search, sort, searchType, currentPage, role1]);
+  }, [search, sort, searchType, currentPage, role1, deleteUserSucces]);
   const confirm = (id) => {
     dispatch(deleteUser({ id: id, token: user.access_token }));
   };
   const handleUpdate = (id) => {
+    dispatch(openModalUpdateUser());
     dispatch(fetchUserbyId({ id: id, token: user.access_token }));
   };
   return (

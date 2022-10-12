@@ -1,5 +1,23 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getAllUserThunk } from "./searchUserThunk";
+
+export const getAllUser = createAsyncThunk(
+  "searchUser/getAllUser",
+  async (payload, thunkAPI) => {
+    const { token, sort, searchType, currentPage, search, role1, role2 } =
+      payload;
+    let url = `/user?oder=${sort}&sortField=${searchType}&page=${currentPage}`;
+
+    if (search) {
+      url = url + `&keyWord=${search}`;
+    }
+    if (role1) {
+      url = url + `&role1=${role1}`;
+    }
+
+    return getAllUserThunk(url, token, thunkAPI);
+  }
+);
 const initialFiltersState = {
   search: "",
   searchType: "id",
@@ -18,23 +36,6 @@ const initialState = {
   totalUser: 0,
   ...initialFiltersState,
 };
-export const getAllUser = createAsyncThunk(
-  "searchUser/getAllUser",
-  async (payload, thunkAPI) => {
-    const { token, sort, searchType, currentPage, search, role1, role2 } =
-      payload;
-    let url = `/user?oder=${sort}&sortField=${searchType}&page=${currentPage}`;
-
-    if (search) {
-      url = url + `&keyWord=${search}`;
-    }
-    if (role1) {
-      url = url + `&role1=${role1}`;
-    }
-
-    return getAllUserThunk(url, token, thunkAPI);
-  }
-);
 const searchUserSlice = createSlice({
   name: "searchUser",
   initialState,
@@ -46,6 +47,9 @@ const searchUserSlice = createSlice({
     },
     changePageUser: (state, { payload }) => {
       state.currentPage = payload;
+    },
+    clearFiltersUser: (state) => {
+      return { ...state, ...initialFiltersState };
     },
   },
   extraReducers: {
@@ -64,5 +68,6 @@ const searchUserSlice = createSlice({
     },
   },
 });
-export const { handleChange, changePageUser } = searchUserSlice.actions;
+export const { handleChange, changePageUser, clearFiltersUser } =
+  searchUserSlice.actions;
 export default searchUserSlice.reducer;

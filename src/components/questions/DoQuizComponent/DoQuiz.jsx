@@ -10,7 +10,7 @@ import { findID, setColorId } from "../../../utils/filterAnswer/setColorId";
 import { chooseAnswer } from "../../../features/quiz/quizSlice";
 
 const DoQuiz = () => {
-  const { quiz, index } = useSelector((store) => store.quiz);
+  const { quiz, index, isSuccess } = useSelector((store) => store.quiz);
   const dispatch = useDispatch();
   const [currentQuestion, setCurrentQuestion] = useState({});
 
@@ -21,8 +21,9 @@ const DoQuiz = () => {
     textAlign: "center",
     color: theme.palette.text.secondary,
   }));
+
   const srcImg = quiz[index]?.thumbnail_link
-    ? quiz[index]?.thumbnail_link
+    ? quiz[index].thumbnail_link
     : defaultImage;
 
   const handleClick = (id) => {
@@ -43,44 +44,49 @@ const DoQuiz = () => {
       setCurrentQuestion({ ...quiz[index], answersSubmittedId: [] });
     }
   }, [index, quiz[index]]);
+
   return (
     <Wrapper>
-      <div className="right-content">
-        <div className="container-title-quiz">
-          <h1 className="title-quiz">{`Quiz ${index + 1}: ${
-            quiz[index].title
-          }`}</h1>
-        </div>
+      {isSuccess ? (
+        <div className="right-content">
+          <div className="container-title-quiz">
+            <h1 className="title-quiz">{`Quiz ${index + 1}: ${
+              quiz[index].title
+            }`}</h1>
+          </div>
 
-        <img className="title-picture" src={srcImg} />
-        <div className="container-answer">
-          <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={3}>
-              {quiz[index].answers.map((item) => {
-                const color = setColorId(
-                  item.id,
-                  currentQuestion.answersSubmittedId,
-                  "#9dd4ff",
-                  "#f1f8f8"
-                );
-                return (
-                  <Grid key={item.id} xs={6}>
-                    <Item
-                      style={{ backgroundColor: `${color}` }}
-                      key={item.id}
-                      onClick={() => handleClick(item.id)}
-                      className="answer"
-                      elevation={2}
-                    >
-                      {item.content}
-                    </Item>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </Box>
+          <img className="title-picture" src={srcImg} />
+          <div className="container-answer">
+            <Box sx={{ flexGrow: 1 }}>
+              <Grid container spacing={3}>
+                {quiz[index].answers.map((item) => {
+                  const color = setColorId(
+                    item.id,
+                    currentQuestion.answersSubmittedId,
+                    "#9dd4ff",
+                    "#f1f8f8"
+                  );
+                  return (
+                    <Grid key={item.id} xs={6}>
+                      <Item
+                        style={{ backgroundColor: `${color}` }}
+                        key={item.id}
+                        onClick={() => handleClick(item.id)}
+                        className="answer"
+                        elevation={2}
+                      >
+                        {item.content}
+                      </Item>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Box>
+          </div>
         </div>
-      </div>
+      ) : (
+        <></>
+      )}
     </Wrapper>
   );
 };

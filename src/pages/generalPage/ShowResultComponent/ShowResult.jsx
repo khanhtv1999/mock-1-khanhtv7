@@ -5,11 +5,14 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { styled as styleMUI } from "@mui/material/styles";
 import { Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import defaultImage from "../../../assets/images/defaultImage.png";
-import { setQuestion } from "../../../features/quiz/quizSlice";
+import { setQuestion, resetQuestions } from "../../../features/quiz/quizSlice";
+import { Header } from "../../../components/HeaderComponent";
 
 const ShowResult = () => {
+  const navigate = useNavigate();
   const { questionsChecked, score, index } = useSelector((store) => store.quiz);
   const dispatch = useDispatch();
 
@@ -18,6 +21,10 @@ const ShowResult = () => {
   };
   const handleNext = () => {
     dispatch(setQuestion(index + 1));
+  };
+  const handlePlayAgain = () => {
+    navigate("/choose-number");
+    dispatch(resetQuestions());
   };
   const Item = styleMUI(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -30,48 +37,54 @@ const ShowResult = () => {
     ? questionsChecked[index]?.thumbnail_link
     : defaultImage;
   return (
-    <Wrapper>
-      <div className="right-content">
-        <div className="container-title-quiz">
-          <h1 className="title-quiz">{`Quiz ${index + 1}: ${
-            questionsChecked[index].title
-          }`}</h1>
-        </div>
+    <>
+      <Header />
+      <Wrapper>
+        <div className="right-content">
+          <div className="container-title-quiz">
+            <h1 className="title-quiz">{`Quiz ${index + 1}: ${
+              questionsChecked[index].title
+            }`}</h1>
+          </div>
 
-        <img className="title-picture" src={srcImg} />
-        <div className="container-answer">
-          <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={3}>
-              {questionsChecked[index]?.answers?.map((item) => {
-                let color = item.is_correct ? "#468b61" : "#fff";
-                if (item.is_submit_correct === false) color = "#da0039";
-                return (
-                  <Grid key={item.id} xs={6}>
-                    <Item
-                      style={{ backgroundColor: `${color}` }}
-                      key={item.id}
-                      className="answer"
-                      elevation={2}
-                    >
-                      {item.content}
-                    </Item>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </Box>
-          <h1>{`Total score ${score}`}</h1>
+          <img className="title-picture" src={srcImg} />
+          <div className="container-answer">
+            <Box sx={{ flexGrow: 1 }}>
+              <Grid container spacing={3}>
+                {questionsChecked[index]?.answers?.map((item) => {
+                  let color = item.is_correct ? "#468b61" : "#fff";
+                  if (item.is_submit_correct === false) color = "#da0039";
+                  return (
+                    <Grid key={item.id} xs={6}>
+                      <Item
+                        style={{ backgroundColor: `${color}` }}
+                        key={item.id}
+                        className="answer"
+                        elevation={2}
+                      >
+                        {item.content}
+                      </Item>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Box>
+            <h1>{`Total score ${score}`}</h1>
+          </div>
+          <div className="btn-result">
+            <Button onClick={handleBack} type="danger">
+              Back Result
+            </Button>
+            <Button onClick={handleNext} type="primary">
+              Next Result
+            </Button>
+            <Button onClick={handlePlayAgain} type="primary">
+              Play Again
+            </Button>
+          </div>
         </div>
-        <div className="btn-result">
-          <Button onClick={handleBack} type="danger">
-            Back Result
-          </Button>
-          <Button onClick={handleNext} type="primary">
-            Next Result
-          </Button>
-        </div>
-      </div>
-    </Wrapper>
+      </Wrapper>
+    </>
   );
 };
 const Wrapper = styled.div`

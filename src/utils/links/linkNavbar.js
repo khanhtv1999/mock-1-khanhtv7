@@ -4,7 +4,7 @@ import { AiFillFileAdd } from "react-icons/ai";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { MdQuiz } from "react-icons/md";
 
-const links = [
+const linkNavbar = [
   {
     id: 1,
     text: "list questions",
@@ -19,7 +19,7 @@ const links = [
     icon: <AiFillFileAdd />,
   },
   { id: 4, text: "add user", path: "add-user", icon: <AiOutlineUserAdd /> },
-  { id: 5, text: "play quiz", path: "add-user", icon: <MdQuiz /> },
+  { id: 5, text: "play quiz", path: "choose-number", icon: <MdQuiz /> },
 ];
 
-export default links;
+export default linkNavbar;

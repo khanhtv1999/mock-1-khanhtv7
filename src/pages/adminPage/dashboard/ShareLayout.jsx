@@ -2,10 +2,6 @@ import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../../../components/SidebarComponent/SideBar";
 import Header from "../../../components/HeaderComponent/Header";
-import TableQuestion from "../../../components/TableQuestionComponent/TableQuestions";
-import ButtonPage from "../../../components/PaginationComponent/Pagination";
-import AddQuestion from "./AddQuestion";
-import ModalUpdateQuiz from "../../../components/ModalComponents/ModalUpdateQuiz";
 
 const SharedLayout = () => {
   return (

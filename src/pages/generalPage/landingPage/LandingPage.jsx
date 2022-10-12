@@ -7,7 +7,7 @@ const LandingPage = () => {
     navigate("/login");
   };
   const handleRegister = () => {
-    navigate("/login");
+    navigate("/register");
   };
   return (
     <Wrapper>
@@ -35,25 +35,45 @@ const LandingPage = () => {
 };
 export default LandingPage;
 const Wrapper = styled.section`
+  background-image: linear-gradient(
+      to right bottom,
+      rgba(31, 33, 34, 0.8),
+      rgba(16, 33, 44, 0.7)
+    ),
+    url(${backgrLanding});
+  background-size: cover;
+  background-position: top;
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+
   .container-landing {
-    background-image: linear-gradient(
-        to right bottom,
-        rgba(31, 33, 34, 0.8),
-        rgba(16, 33, 44, 0.7)
-      ),
-      url(${backgrLanding});
-    background-size: cover;
-    background-position: top;
-    position: relative;
-    height: 80vh;
-    width: 100vw;
+    position: absolute;
+    margin-top: 25vh;
+    left: 25%;
   }
   h1 {
     font-size: 6rem;
     color: #fff;
-    margin-bottom: 3rem;
   }
   h3 {
     color: #edf4f8;
+  }
+  .container-btn {
+    .btn {
+      background-color: #ff951f;
+      color: #f9fafa;
+      width: 15rem;
+      height: 5rem;
+      margin-right: 5rem;
+      font-size: 2rem;
+      border: none;
+      border-radius: 0.5rem;
+      margin-top: 25rem;
+    }
+    .btn:hover {
+      background-color: #fff;
+      color: #000;
+    }
   }
 `;

@@ -8,6 +8,7 @@ import quizSlice from "./features/quiz/quizSlice";
 import searchQuizSlice from "./features/quiz/searchQuizSlice";
 import createQuizSlice from "./features/quiz/createQuizSlice";
 import searchUserSlice from "./features/user/searchUserSlice";
+import createUserSlice from "./features/user/addUserSlice";
 
 const reducers = combineReducers({
   user: userSlice,
@@ -15,6 +16,7 @@ const reducers = combineReducers({
   searchQuiz: searchQuizSlice,
   createQuiz: createQuizSlice,
   searchUser: searchUserSlice,
+  createUser: createUserSlice,
 });
 const persistConfig = {
   key: "root",

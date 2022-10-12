@@ -5,12 +5,11 @@ import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { updateAnswer } from "../../features/quiz/quizSlice";
 import { setTitleCurentQuestion } from "../../features/quiz/quizSlice";
-import {
-  upLoadImgCurrent,
-  updateQuestion,
-} from "../../features/quiz/quizSlice";
+import { upLoadImgCurrent } from "../../features/quiz/quizSlice";
+import { updateQuestion } from "../../features/quiz/searchQuizSlice";
 import { AddAnsComponent } from "../questions/AddAnsComponent";
-// import { fetchQuizbyId } from "../../features/quiz/quizSlice";
+import { resetStatus } from "../../features/quiz/createQuizSlice";
+import { closeModalUpdateQuestion } from "../../features/quiz/searchQuizSlice";
 
 const validationSchema = yup.object({
   title: yup.string("Enter title question").required("Title is required"),
@@ -18,21 +17,20 @@ const validationSchema = yup.object({
 
 const ModalUpdateQuestion = () => {
   const { user } = useSelector((store) => store.user);
-  const { quizCurrent } = useSelector((store) => store.quiz);
-  const [open, setOpen] = useState(false);
-  const [checked, setChecked] = useState(true);
+  const { quizCurrent, fetchQuizSuccess, isUpdate } = useSelector(
+    (store) => store.quiz
+  );
+  const { isModalUpdateQuestion } = useSelector((store) => store.searchQuiz);
   const toggleChecked = (id, check) => {
     dispatch(
       updateAnswer({ id: id, token: user.access_token, is_correct: !check })
     );
   };
   const handleOk = () => {
-    // dispatch(setIsOpenUpdate(false))
     formik.handleSubmit();
   };
   const dispatch = useDispatch();
   const handleCheck = (id, check) => {
-    console.log(id, check);
     dispatch(
       updateAnswer({ id: id, token: user.access_token, is_correct: !check })
     );
@@ -51,8 +49,12 @@ const ModalUpdateQuestion = () => {
           id: quizCurrent.id,
         })
       );
+      dispatch(resetStatus());
     },
   });
+  const handleCancel = () => {
+    dispatch(closeModalUpdateQuestion());
+  };
   const handleUploadFile = (e) => {
     let formData = new FormData();
     formData.append("thumbnail", e.target.files[0], e.target.files[0].name);
@@ -66,16 +68,14 @@ const ModalUpdateQuestion = () => {
   };
   return (
     <>
-      <Button type="primary" onClick={() => setOpen(true)}>
-        Open Modal of 1000px width
-      </Button>
       <Modal
         title="Update Questions"
         centered
-        open={open}
+        open={isModalUpdateQuestion}
         onOk={handleOk}
-        onCancel={() => setOpen(false)}
+        onCancel={handleCancel}
         width={600}
+        confirmLoading={isUpdate}
       >
         <Input.TextArea value={quizCurrent.title} onChange={myHandleChange} />
         <div
@@ -94,41 +94,47 @@ const ModalUpdateQuestion = () => {
           type="file"
           onChange={handleUploadFile}
         />
+        {fetchQuizSuccess ? (
+          <div>
+            {quizCurrent?.answers.map((item) => {
+              return (
+                <p
+                  style={{
+                    marginBottom: "20px",
+                  }}
+                >
+                  <Button
+                    style={{ marginRight: "15px" }}
+                    size="small"
+                    type="primary"
+                    danger
+                  >
+                    Delete
+                  </Button>
+                  <Button
+                    style={{ marginRight: "35px" }}
+                    type="primary"
+                    size="small"
+                    onClick={() => toggleChecked(item.id, item.is_correct)}
+                  >
+                    {!item.is_correct ? "Click if true" : "Click if false"}
+                  </Button>
+                  <Checkbox
+                    key={item.id}
+                    style={{ fontWeight: "300", fontSize: "15px" }}
+                    checked={item.is_correct}
+                    onClick={() => handleCheck(item.id, item.is_correct)}
+                  >
+                    {item.content}
+                  </Checkbox>
+                </p>
+              );
+            })}
+          </div>
+        ) : (
+          <></>
+        )}
 
-        {quizCurrent.answers.map((item) => {
-          return (
-            <p
-              style={{
-                marginBottom: "20px",
-              }}
-            >
-              <Button
-                style={{ marginRight: "15px" }}
-                size="small"
-                type="primary"
-                danger
-              >
-                Delete
-              </Button>
-              <Button
-                style={{ marginRight: "35px" }}
-                type="primary"
-                size="small"
-                onClick={() => toggleChecked(item.id, item.is_correct)}
-              >
-                {!item.is_correct ? "Click if true" : "Click if false"}
-              </Button>
-              <Checkbox
-                key={item.id}
-                style={{ fontWeight: "300", fontSize: "15px" }}
-                checked={item.is_correct}
-                onClick={() => handleCheck(item.id, item.is_correct)}
-              >
-                {item.content}
-              </Checkbox>
-            </p>
-          );
-        })}
         <AddAnsComponent idQuizCurrent={quizCurrent.id} />
       </Modal>
     </>

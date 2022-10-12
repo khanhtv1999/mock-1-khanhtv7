@@ -28,7 +28,9 @@ const validationSchema = yup.object({
 });
 export default function SignInSide() {
   const dispatch = useDispatch();
-  const { isAuthenticated, isLoading } = useSelector((store) => store.user);
+  const { isAuthenticated, isLoading, user } = useSelector(
+    (store) => store.user
+  );
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -44,20 +46,25 @@ export default function SignInSide() {
   });
   const handleLogin = (email, password) => {
     setLoading(true);
-    console.log(email, password);
+
     dispatch(loginUser({ email: email, password: password }));
     if (isAuthenticated === false) {
       return null;
     }
   };
   useEffect(() => {
-    if (isAuthenticated === true) {
-      navigate("/choose-number");
+    if (isAuthenticated) {
+      if (user.roles.includes("admin")) {
+        navigate("/");
+      }
+      if (user.roles.includes("user")) {
+        navigate("/choose-number");
+      }
     }
     setLoading(false);
   }, [isAuthenticated]);
   useEffect(() => {
-    if (isLoading === false) {
+    if (!isLoading) {
       setLoading(isLoading);
     }
   }, [isLoading]);

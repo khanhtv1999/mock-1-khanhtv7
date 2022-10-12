@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { forgotPassword } from "../../../features/user/userSlice";
 import { Header } from "../../../components/HeaderComponent";
+import { Link } from "react-router-dom";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -38,7 +39,8 @@ const ForgotPassword = () => {
             </Button>
             <div className="container-line">
               <hr className="line" />
-              <a className="text-footer">Remember your password?</a>
+
+              <Link to="/login">Remember your password?</Link>
             </div>
           </div>
         </form>

@@ -15,9 +15,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../features/user/userSlice";
 import { useNavigate } from "react-router";
 import { toggleSidebar } from "../../features/user/userSlice";
+import { Link } from "react-router-dom";
 
 const pages = ["Admin", "User"];
-const settings = ["Profile", "Logout"];
+const settings = ["Back Admin", "Logout"];
 
 const ResponsiveAppBar = () => {
   const { user } = useSelector((store) => store.user);
@@ -43,6 +44,10 @@ const ResponsiveAppBar = () => {
       dispatch(logoutUser(user.refresh_token));
       navigate("/landing");
     }
+    if (setting === "Back Admin") {
+      // dispatch(logoutUser(user.refresh_token));
+      navigate("/");
+    }
   };
   const toggle = () => {
     dispatch(toggleSidebar());
@@ -58,10 +63,17 @@ const ResponsiveAppBar = () => {
           }}
           disableGutters
         >
-          <DensityMediumIcon
-            style={{ fontSize: "2.5rem", cursor: "pointer" }}
-            onClick={toggle}
-          />
+          {user.roles.includes("admin") ? (
+            <div>
+              <DensityMediumIcon
+                style={{ fontSize: "2.5rem", cursor: "pointer" }}
+                onClick={toggle}
+              />
+            </div>
+          ) : (
+            <></>
+          )}
+
           <Typography
             variant="h6"
             noWrap
@@ -151,10 +163,7 @@ const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar
-                  alt="Remy Sharp"
-                  src="https://scontent.fhan7-1.fna.fbcdn.net/v/t1.6435-9/72475326_2389096901315035_6928964408131452928_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=CH34kYQB25wAX9ndwC_&_nc_ht=scontent.fhan7-1.fna&oh=00_AT8lw_mLwuDpKWth8J8nEs3rU-9j8-eDJYCUrDObUYElsw&oe=635A200D"
-                />
+                <Avatar alt="Remy Sharp" src={user.avatar_link} />
               </IconButton>
             </Tooltip>
             <Menu

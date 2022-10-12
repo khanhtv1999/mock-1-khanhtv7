@@ -9,9 +9,13 @@ import { ForgotPassword } from "../src/pages/generalPage/authenticationPage";
 import ChooseNumQuiz from "./pages/generalPage/doQuizPage/ChooseNumQuiz";
 import DoQuizPage from "./pages/generalPage/doQuizPage/DoQuizPage";
 import SharedLayout from "./pages/adminPage/dashboard/ShareLayout";
-import ShowResult from "./components/questions/ShowResultComponent/ShowResult";
+import { ShowResult } from "./pages/generalPage/ShowResultComponent";
 import ViewAllQuestions from "./pages/adminPage/dashboard/ViewAllQuestions";
 import ViewAllUsers from "./pages/adminPage/dashboard/ViewAllUsers";
+import AddUser from "./pages/adminPage/dashboard/AddUser";
+import AddQuestion from "./pages/adminPage/dashboard/AddQuestion";
+import ProtectedRoute from "./utils/router/ProtectedRouter";
+
 function App() {
   return (
     <BrowserRouter>
@@ -19,6 +23,8 @@ function App() {
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<ViewAllQuestions />} />
           <Route path="list-users" element={<ViewAllUsers />} />
+          <Route path="add-user" element={<AddUser />} />
+          <Route path="add-question" element={<AddQuestion />} />
         </Route>
         <Route path="landing" element={<LandingPage />} />
         <Route path="login" element={<LoginPage />} />

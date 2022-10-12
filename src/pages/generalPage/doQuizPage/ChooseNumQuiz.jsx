@@ -46,7 +46,7 @@ const ChooseNumQuiz = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            Submit
           </LoadingButton>
         </div>
       </Wrapper>

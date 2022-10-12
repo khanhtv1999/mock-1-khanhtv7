@@ -1,17 +1,19 @@
-import { Cascader, Image, Input, Modal, Typography } from "antd";
-import { useState } from "react";
+import { Cascader, Image, Input, Modal, Spin } from "antd";
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   setRoles,
   setName,
   setEmail,
   updateUser,
+  closeModalUpdateUser,
 } from "../../features/user/userSlice";
 
 const ModalUpdateUser = () => {
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(true);
-  const { userById, user } = useSelector((store) => store.user);
+
+  const { userById, user, isModalUpdateUser, fetchUserSuccess, isLoading } =
+    useSelector((store) => store.user);
   const optionsRole = [
     {
       label: "User",
@@ -23,7 +25,7 @@ const ModalUpdateUser = () => {
     },
   ];
   const handleCancel = () => {
-    setOpen(false);
+    dispatch(closeModalUpdateUser());
   };
   const myHandleChangeName = (e) => {
     dispatch(setName(e.target.value));
@@ -63,44 +65,50 @@ const ModalUpdateUser = () => {
   };
   return (
     <>
-      <Modal
-        title="Update User Modal"
-        open={open}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        // confirmLoading={statusUpdateUser}
-      >
-        <>
-          <Input
-            id="email"
-            name="email"
-            label="Email"
-            placeholder="Enter email"
-            onChange={myHandleChangeEmail}
-            value={userById.email}
-          />
-          <Input
-            id="name"
-            name="name"
-            label="Name"
-            placeholder="Enter name"
-            style={{ marginTop: "10px" }}
-            value={userById.name}
-            onChange={myHandleChangeName}
-          />
+      {fetchUserSuccess ? (
+        <div>
+          <Modal
+            title="Update User Modal"
+            open={isModalUpdateUser}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            confirmLoading={isLoading}
+          >
+            <>
+              <Input
+                id="email"
+                name="email"
+                label="Email"
+                placeholder="Enter email"
+                onChange={myHandleChangeEmail}
+                value={userById.email}
+              />
+              <Input
+                id="name"
+                name="name"
+                label="Name"
+                placeholder="Enter name"
+                style={{ marginTop: "10px" }}
+                value={userById.name}
+                onChange={myHandleChangeName}
+              />
 
-          <Cascader
-            name="roles"
-            placeholder="Roles"
-            options={optionsRole}
-            onChange={onChange}
-            multiple
-            maxTagCount="responsive"
-            defaultValue={userById.roles.map((item) => [item])}
-            style={{ marginTop: "10px", width: "100%" }}
-          />
-        </>
-      </Modal>
+              <Cascader
+                name="roles"
+                placeholder="Roles"
+                options={optionsRole}
+                onChange={onChange}
+                multiple
+                maxTagCount="responsive"
+                defaultValue={userById?.roles.map((item) => [item])}
+                style={{ marginTop: "10px", width: "100%" }}
+              />
+            </>
+          </Modal>
+        </div>
+      ) : (
+        <></>
+      )}
     </>
   );
 };

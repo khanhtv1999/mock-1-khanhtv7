@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getAllQuizThunk } from "./searchQuizThunk";
-import customFetch from "../../utils/axios/axiosCustomize";
+import { getAllQuizThunk, updateQuestionThunk } from "./searchQuizThunk";
+import { toast } from "react-toastify";
+
 const initialFiltersState = {
   search: "",
   searchType: "id",
@@ -15,6 +16,7 @@ const initialState = {
   currentPage: 1,
   totalPages: 1,
   totalQuiz: 0,
+  isModalUpdateQuestion: false,
   ...initialFiltersState,
 };
 export const getAllQuiz = createAsyncThunk(
@@ -27,6 +29,19 @@ export const getAllQuiz = createAsyncThunk(
       url = url + `&keyWord=${search}`;
     }
     return getAllQuizThunk(url, token, thunkAPI);
+  }
+);
+export const updateQuestion = createAsyncThunk(
+  "creatQuiz/updateQuestion",
+  async (payload, thunkAPI) => {
+    const { id, thumbnail_link, title, token } = payload;
+    return updateQuestionThunk(
+      `/questions/${id}`,
+      title,
+      thumbnail_link,
+      token,
+      thunkAPI
+    );
   }
 );
 const searchQuizSlice = createSlice({
@@ -51,6 +66,12 @@ const searchQuizSlice = createSlice({
       state.currentPage = payload;
     },
     clearAllQuizState: (state) => initialState,
+    openModalUpdateQuestion: (state) => {
+      state.isModalUpdateQuestion = true;
+    },
+    closeModalUpdateQuestion: (state) => {
+      state.isModalUpdateQuestion = false;
+    },
   },
 
   extraReducers: {
@@ -67,6 +88,23 @@ const searchQuizSlice = createSlice({
     [getAllQuiz.rejected]: (state) => {
       state.isLoading = false;
     },
+    [updateQuestion.pending]: (state) => {
+      state.isSuccess = false;
+      state.isLoading = true;
+    },
+    [updateQuestion.fulfilled]: (state, { payload }) => {
+      console.log(payload);
+      state.isLoading = false;
+      state.quizs = state.quizs.map((item) => {
+        if (item.id === payload.data.id) return payload.data;
+        return item;
+      });
+      toast.success("update question success");
+    },
+
+    [updateQuestion.rejected]: (state) => {
+      state.isLoading = false;
+    },
   },
 });
 export const {
@@ -76,5 +114,7 @@ export const {
   clearFilters,
   changePage,
   clearAllQuizState,
+  openModalUpdateQuestion,
+  closeModalUpdateQuestion,
 } = searchQuizSlice.actions;
 export default searchQuizSlice.reducer;

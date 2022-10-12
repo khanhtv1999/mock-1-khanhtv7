@@ -8,12 +8,15 @@ import defaultImg from "../../assets/images/defaultImage.png";
 import { deleteQuiz } from "../../features/quiz/quizSlice";
 import { fetchQuizbyId } from "../../features/quiz/quizSlice";
 import { Pagination } from "../PaginationComponent";
+import { ModalUpdateQuestion } from "../ModalComponents";
+import { openModalUpdateQuestion } from "../../features/quiz/searchQuizSlice";
 
 const TableQuestion = () => {
   var moment = require("moment");
   const { user } = useSelector((store) => store.user);
   const { sort, searchType, currentPage, search, quizs, totalPages } =
     useSelector((store) => store.searchQuiz);
+  const { deleteQuizSucces } = useSelector((store) => store.quiz);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -26,15 +29,17 @@ const TableQuestion = () => {
         search: search,
       })
     );
-  }, [search, sort, searchType, currentPage]);
+  }, [search, sort, searchType, currentPage, deleteQuizSucces]);
   const confirm = (id) => {
     dispatch(deleteQuiz({ id: id, token: user.access_token }));
   };
   const handleUpdate = (id) => {
+    dispatch(openModalUpdateQuestion());
     dispatch(fetchQuizbyId({ id: id, token: user.access_token }));
   };
   return (
     <Wrapper>
+      <ModalUpdateQuestion />
       <table>
         <thead>
           <tr>

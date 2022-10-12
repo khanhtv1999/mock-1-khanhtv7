@@ -7,7 +7,6 @@ import {
   updateAnswerThunk,
   upLoadImgCurrentThunk,
   createAnswerThunk,
-  updateQuestionThunk,
 } from "./quizThunk";
 
 export const getQuestionPlay = createAsyncThunk(
@@ -75,30 +74,19 @@ export const createAnswer = createAsyncThunk(
     );
   }
 );
-export const updateQuestion = createAsyncThunk(
-  "creatQuiz/updateQuestion",
-  async (payload, thunkAPI) => {
-    const { id, thumbnail_link, title, token } = payload;
-    return updateQuestionThunk(
-      `/questions/${id}`,
-      title,
-      thumbnail_link,
-      token,
-      thunkAPI
-    );
-  }
-);
+
 const initialState = {
   quiz: [],
   isSuccess: false,
   isLoading: false,
   index: 0,
-  allQuiz: [],
   questionsChecked: 0,
   number: 0,
   score: 0,
   submitSucces: false,
-  quizCurrent: "",
+  quizCurrent: [],
+  fetchQuizSuccess: false,
+  deleteQuizSucces: false,
 };
 const quizSlice = createSlice({
   name: "quiz",
@@ -117,6 +105,7 @@ const quizSlice = createSlice({
       state.quiz = [];
       state.index = 0;
       state.isSuccess = false;
+      state.submitSucces = false;
     },
     setTitleCurentQuestion: (state, { payload }) => {
       state.quizCurrent.title = payload;
@@ -135,46 +124,52 @@ const quizSlice = createSlice({
       state.isSuccess = true;
     },
     [getQuestionPlay.rejected]: (state) => {
-      state.isLoading = false;
+      state.deleteQuizSucces = false;
       state.isSuccess = false;
     },
     [deleteQuiz.pending]: (state) => {
-      state.isSuccess = false;
+      state.deleteQuizSucces = false;
       state.isLoading = true;
     },
     [deleteQuiz.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
+      state.deleteQuizSucces = true;
     },
     [deleteQuiz.rejected]: (state) => {
       state.isLoading = false;
     },
     [submitAns.pending]: (state) => {
-      state.isSuccess = false;
+      state.submitSucces = false;
+      state.isLoading = true;
     },
     [submitAns.fulfilled]: (state, { payload }) => {
       state.questionsChecked = payload.listQuestionChecked;
       state.number = payload.listQuestionChecked.length;
       state.score = payload.totalScore;
+      state.submitSucces = true;
+      state.isLoading = false;
     },
     [submitAns.rejected]: (state) => {
       state.isLoading = false;
+      state.submitSucces = false;
     },
     [fetchQuizbyId.pending]: (state) => {
       state.isLoading = true;
+      state.fetchQuizSuccess = false;
     },
     [fetchQuizbyId.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      console.log("check p", payload.data);
+      state.fetchQuizSuccess = true;
       state.quizCurrent = payload.data;
     },
     [fetchQuizbyId.rejected]: (state) => {
       state.isLoading = false;
+      state.fetchQuizSuccess = false;
     },
     [updateAnswer.pending]: (state) => {
       state.isLoading = true;
     },
     [updateAnswer.fulfilled]: (state, { payload }) => {
-      console.log("checkkkk", payload);
       state.quizCurrent.answers = state.quizCurrent.answers.map((item) => {
         if (item.id === payload.data.id) return payload.data;
         else return item;
@@ -201,26 +196,9 @@ const quizSlice = createSlice({
     [createAnswer.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
       state.quizCurrent.answers.push(payload.data);
-      console.log(payload);
     },
     [createAnswer.rejected]: (state) => {
       state.creatQuizSuccess = false;
-    },
-    [upLoadImgCurrent.pending]: (state) => {
-      state.isSuccess = false;
-      state.isLoading = true;
-    },
-    [updateQuestion.fulfilled]: (state, { payload }) => {
-      console.log(payload);
-      state.isLoading = false;
-      console.log(state.allQuiz);
-      // state.allQuiz = state.allQuiz((item) => {
-      //   if (item.id === payload.data.id) return payload.data;
-      //   return item;
-      // });
-    },
-    [updateQuestion.rejected]: (state) => {
-      state.isLoading = false;
     },
   },
 });

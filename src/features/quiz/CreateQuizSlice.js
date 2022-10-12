@@ -25,18 +25,28 @@ const initialState = {
   linkImg: "",
   upLoadSuccess: false,
   creatQuizSuccess: false,
+  newQuiz: "",
+  isLoading: false,
 };
 const createQuizSlice = createSlice({
   name: "creatQuiz",
   initialState,
-  reducers: {},
+  reducers: {
+    resetLinkImg: (state, { payload }) => {
+      state.linkImg = "";
+    },
+    resetStatus: (state, { payload }) => {
+      state.upLoadSuccess = false;
+      state.creatQuizSuccess = false;
+    },
+  },
   extraReducers: {
     [upLoadImg.pending]: (state) => {
       state.upLoadSuccess = false;
     },
     [upLoadImg.fulfilled]: (state, { payload }) => {
       state.upLoadSuccess = true;
-      console.log("check payload", payload);
+
       state.linkImg = payload.data;
     },
     [upLoadImg.rejected]: (state) => {
@@ -44,13 +54,18 @@ const createQuizSlice = createSlice({
     },
     [createTitleQuiz.pending]: (state) => {
       state.creatQuizSuccess = false;
+      state.isLoading = true;
     },
     [createTitleQuiz.fulfilled]: (state, { payload }) => {
       state.creatQuizSuccess = true;
+      state.newQuiz = payload.data;
+      state.isLoading = false;
     },
     [createTitleQuiz.rejected]: (state) => {
       state.creatQuizSuccess = false;
+      state.isLoading = false;
     },
   },
 });
+export const { resetLinkImg, resetStatus } = createQuizSlice.actions;
 export default createQuizSlice.reducer;

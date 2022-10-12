@@ -1,22 +1,33 @@
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { setQuestion } from "../../features/quiz/quizSlice";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 const Circle = () => {
+  const refDiv = useRef([]);
   const { quiz, index } = useSelector((store) => store.quiz);
   const dispatch = useDispatch();
-  console.log("index", index);
 
-  console.log(quiz);
   const getClassQuestion = (item) => {
-    if (item.answersSubmittedId === undefined) return "unselect";
-    else if (item.answersSubmittedId.length === 0) return "unselect";
-    else return "select";
+    if (item.answersSubmittedId === undefined) return "question";
+    else if (item.answersSubmittedId.length === 0) return "question";
+    else return "question select";
   };
-  // const handleClick = (item, index) => {
-  //   console.log("index func");
-  //   // dispatch(setQuestion(index));
-  // };
+  const handleClick = (item, index) => {
+    dispatch(setQuestion(index));
+    if (refDiv.current) {
+      refDiv.current.forEach((item) => {
+        if (item && item.className === "question select ") {
+          item.className = "question";
+        }
+      });
+    }
+    if (item && item.answers > 0) {
+      if (item.answersSubmittedId) return;
+    }
+
+    console.log("check item,", item);
+    refDiv.current[index].className = "question select";
+  };
 
   return (
     <Wrapper>
@@ -25,7 +36,8 @@ const Circle = () => {
           <div
             key={item.id}
             className={getClassQuestion(item)}
-            // onClick={handleClick}
+            onClick={() => handleClick(item, index)}
+            ref={(element) => (refDiv.current[index] = element)}
           >
             {index + 1}
           </div>

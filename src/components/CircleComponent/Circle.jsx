@@ -14,19 +14,23 @@ const Circle = () => {
   };
   const handleClick = (item, index) => {
     dispatch(setQuestion(index));
+    console.log("check def", refDiv.current);
     if (refDiv.current) {
       refDiv.current.forEach((item) => {
-        if (item && item.className === "question select ") {
+        if (item && item.className === "question clicked") {
           item.className = "question";
         }
       });
     }
-    if (item && item.answers > 0) {
-      if (item.answersSubmittedId) return;
-    }
+    // if (item.answersSubmittedId.length > 0) {
 
-    console.log("check item,", item);
-    refDiv.current[index].className = "question select";
+    //   item.className = "question select";
+    // }
+
+    refDiv.current[index].className =
+      refDiv.current[index].className === "question select"
+        ? "question select"
+        : "question clicked";
   };
 
   return (
@@ -65,6 +69,9 @@ const Wrapper = styled.section`
   }
   .select {
     background-color: #c3c3c3;
+  }
+  .clicked {
+    color: #ed082a;
   }
 `;
 export default Circle;

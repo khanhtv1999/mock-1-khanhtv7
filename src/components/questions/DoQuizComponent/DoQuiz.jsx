@@ -13,7 +13,7 @@ const DoQuiz = () => {
   const { quiz, index, isSuccess } = useSelector((store) => store.quiz);
   const dispatch = useDispatch();
   const [currentQuestion, setCurrentQuestion] = useState({});
-
+  //
   const Item = styleMUI(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,

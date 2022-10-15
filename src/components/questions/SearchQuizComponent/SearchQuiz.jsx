@@ -24,7 +24,7 @@ const SearchQuiz = () => {
     e.preventDefault();
     dispatch(clearFilters());
   };
-
+  //
   return (
     <Wrapper>
       <form className="form">
